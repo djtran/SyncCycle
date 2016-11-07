@@ -10,6 +10,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BikeData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)DataViewCell.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)GettingStarted.Xamarin" />

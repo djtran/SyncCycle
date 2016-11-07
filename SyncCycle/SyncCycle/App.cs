@@ -7,22 +7,34 @@ using Xamarin.Forms;
 
 namespace SyncCycle
 {
-	public class App : Application
+    /// <summary>
+    ///// ******* OVERVIEW *******
+    /////
+    ///// NuGet library         -   Purpose
+    ///
+    ///// Xamarin.Forms.Maps    -   Cross-platform maps using native APIs
+    ///// Acr.Ble               -   Bluetooth LE Connectivity and communications.
+    ///// OxyPlot               -   Data Visualization - Charts and Plots
+    /// 
+    /// App.cs      -       Purely for visuals. No logic should be done here.
+    /// 
+    /// </summary>
+
+
+
+
+    //SCREENS AND VISUAL LAYOUT
+    public class App : Application
 	{
 		public App ()
 		{
-			// The root page of your application
-			MainPage = new ContentPage {
-				Content = new StackLayout {
-					VerticalOptions = LayoutOptions.Center,
-					Children = {
-						new Label {
-							HorizontalTextAlignment = TextAlignment.Center,
-							Text = "Welcome to Xamarin Forms!"
-						}
-					}
-				}
-			};
+            List<BikeData> dummy = new List<BikeData>();
+            dummy.Add(new BikeData());
+            dummy.Add(new BikeData());
+            dummy.Add(new BikeData());
+            // The root page of your application
+            MainPage = new DataPage(dummy);
+            
 		}
 
 		protected override void OnStart ()
