@@ -116,12 +116,12 @@
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Acr.Ble, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Acr.Ble.1.0.4\lib\Xamarin.iOS10\Acr.Ble.dll</HintPath>
+    <Reference Include="BluetoothLE.Core, Version=1.0.5879.15767, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\XamarinBluetoothLE.1.0.0\lib\Xamarin.iOS10\BluetoothLE.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Acr.Ble.Interfaces, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Acr.Ble.1.0.4\lib\Xamarin.iOS10\Acr.Ble.Interfaces.dll</HintPath>
+    <Reference Include="BluetoothLE.iOS, Version=1.0.5879.15768, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\XamarinBluetoothLE.1.0.0\lib\Xamarin.iOS10\BluetoothLE.iOS.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />

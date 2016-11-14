@@ -31,7 +31,7 @@ namespace SyncCycle
         {
             var nameLabel = new Label
             {
-                HorizontalOptions = LayoutOptions.FillAndExpand
+                HorizontalOptions = LayoutOptions.FillAndExpand,
             };
             nameLabel.SetBinding(Label.TextProperty, new Binding("Display1"));
 

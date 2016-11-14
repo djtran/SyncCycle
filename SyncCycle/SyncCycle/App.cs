@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BluetoothLE.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,28 +14,32 @@ namespace SyncCycle
     ///// NuGet library         -   Purpose
     ///
     ///// Xamarin.Forms.Maps    -   Cross-platform maps using native APIs
-    ///// Acr.Ble               -   Bluetooth LE Connectivity and communications.
+    ///// Xamarin.BluetoothLE   -   Bluetooth LE Connectivity and communications.
     ///// OxyPlot               -   Data Visualization - Charts and Plots
     /// 
     /// App.cs      -       Purely for visuals. No logic should be done here.
     /// 
     /// </summary>
 
-
-
-
-    //SCREENS AND VISUAL LAYOUT
     public class App : Application
 	{
+        private static readonly IAdapter _bluetoothAdapter;
+        public static IAdapter BluetoothAdapter { get { return _bluetoothAdapter; } }
+
 		public App ()
 		{
+            //Bluetooth
+            _bluetoothAdapter = DependencyService.Get<IAdapter>();
+
+            _bluetoothAdapter.ScanTimeout = TimeSpan.FromSeconds(10);
+            _bluetoothAdapter.ConnectionTimeout = TimeSpan.FromSeconds(10);
+
             List<BikeData> dummy = new List<BikeData>();
             dummy.Add(new BikeData());
             dummy.Add(new BikeData());
             dummy.Add(new BikeData());
             // The root page of your application
             MainPage = new DataPage(dummy);
-            
 		}
 
 		protected override void OnStart ()

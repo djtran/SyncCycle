@@ -48,5 +48,13 @@
     </array>
     <key>UILaunchStoryboardName</key>
     <string>LaunchScreen.storyboard</string>
+	<array>
+	<string>bluetooth-central</string>
+	</array>
+
+	To add a description to the Bluetooth request message (on iOS 10 this is required!)
+	```xml    
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>SyncCycle-BLE</string>
   </dict>
 </plist>
