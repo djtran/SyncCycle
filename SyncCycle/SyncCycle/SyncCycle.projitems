@@ -11,6 +11,7 @@
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BikeData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BTDeviceButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)DataViewCell.cs" />
   </ItemGroup>

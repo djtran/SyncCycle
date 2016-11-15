@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 
 using Xamarin.Forms;
+using BluetoothLE.Core.Events;
 
 namespace SyncCycle
 {
@@ -23,29 +24,42 @@ namespace SyncCycle
 
     public class App : Application
 	{
+
         private static readonly IAdapter _bluetoothAdapter;
         public static IAdapter BluetoothAdapter { get { return _bluetoothAdapter; } }
 
-		public App ()
-		{
-            //Bluetooth
+        static App()
+        {
             _bluetoothAdapter = DependencyService.Get<IAdapter>();
 
             _bluetoothAdapter.ScanTimeout = TimeSpan.FromSeconds(10);
             _bluetoothAdapter.ConnectionTimeout = TimeSpan.FromSeconds(10);
+        }
+
+        public App ()
+		{
 
             List<BikeData> dummy = new List<BikeData>();
             dummy.Add(new BikeData());
             dummy.Add(new BikeData());
             dummy.Add(new BikeData());
+            DataPage defaultPage = new DataPage(dummy);
+
+            //delegate instance method to the event
+            _bluetoothAdapter.DeviceDiscovered += defaultPage.DeviceDiscovered;
+            
             // The root page of your application
-            MainPage = new DataPage(dummy);
-		}
+            MainPage = defaultPage;
+
+
+
+
+        }
 
 		protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+        }
 
 		protected override void OnSleep ()
 		{

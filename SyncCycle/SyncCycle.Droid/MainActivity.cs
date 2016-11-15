@@ -17,9 +17,8 @@ namespace SyncCycle.Droid
 		{
 			base.OnCreate (bundle);
 
-			global::Xamarin.Forms.Forms.Init (this, bundle);
-
-            Xamarin.Forms.DependencyService.Register<IAdapter>();
+            Xamarin.Forms.DependencyService.Register<BluetoothLE.Core.IAdapter, BluetoothLE.Droid.Adapter>();
+            global::Xamarin.Forms.Forms.Init (this, bundle);
             LoadApplication (new SyncCycle.App ());
 		}
 	}

@@ -26,6 +26,7 @@ namespace SyncCycle.Droid
 		
 		public static void UpdateIdValues()
 		{
+			global::BluetoothLE.Droid.Resource.String.library_name = global::SyncCycle.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::SyncCycle.Droid.Resource.Attribute.actionBarSize;
 		}
 		
@@ -3377,6 +3378,9 @@ namespace SyncCycle.Droid
 			
 			// aapt resource value: 0x7f06001e
 			public const int common_signin_button_text_long = 2131099678;
+			
+			// aapt resource value: 0x7f060045
+			public const int library_name = 2131099717;
 			
 			// aapt resource value: 0x7f06001f
 			public const int mr_button_content_description = 2131099679;

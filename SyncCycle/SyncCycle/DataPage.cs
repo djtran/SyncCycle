@@ -6,13 +6,15 @@ using System.Collections;
 using BluetoothLE.Core;
 
 using Xamarin.Forms;
+using BluetoothLE.Core.Events;
 
 namespace SyncCycle
 {
     class DataPage : ContentPage
     {
-
-        private List<IDevice> DeviceList;
+        private List<string> DeviceNames = new List<string>();
+        private List<IDevice> DeviceList = new List<IDevice>();
+        
         StackLayout search = new StackLayout()
         {
             VerticalOptions = LayoutOptions.End,
@@ -68,18 +70,46 @@ namespace SyncCycle
         void OnButtonClicked(object sender, EventArgs args)
         {
             // discover some devices
+            Console.WriteLine("Before Scan");
             App.BluetoothAdapter.StartScanningForDevices();
-
+            Console.WriteLine("After Scan");
         }
 
-        private void DeviceDiscovered(object sender, BluetoothLE.Core.Events.DeviceDiscoveredEventArgs e)
+        public void DeviceDiscovered(object sender, BluetoothLE.Core.Events.DeviceDiscoveredEventArgs e)
         {
-            if(DeviceList.All(X => X.Id != e.Device.Id))
+
+
+            //Search won't update.. Probably need to SetBinding() in order for it to update the display
+            Console.WriteLine("Before Device List");
+            if (DeviceList.All(X => X.Id != e.Device.Id))
             {
                 DeviceList.Add(e.Device);
-                search.Children.Add(new Label { Text = e.Device.Name});
+                DeviceNames.Add(e.Device.Name);
+                Button b = new Button();
+                b.Text = e.Device.Name;
+                b.Clicked += connectPls;
+
+                search.Children.Add(b);
             }
+            Console.WriteLine("After Device List");
         }
 
+        void connectPls(object sender, EventArgs args)
+        {
+            Button b= (Button) sender;
+            App.BluetoothAdapter.ConnectToDevice(DeviceList.Find(x => x.Name == b.Text));
+            App.BluetoothAdapter.DeviceConnected += connectSuccess;
+            App.BluetoothAdapter.DeviceFailedToConnect += connectFail;
+        }
+
+        private void connectFail(object sender, DeviceConnectionEventArgs e)
+        {
+            DisplayAlert("Failed!", "Failed to connect to " + e.Device.Name + " with error message : " + e.ErrorMessage, "Aw man :<");
+        }
+
+        private void connectSuccess(object sender, DeviceConnectionEventArgs e)
+        {
+            DisplayAlert("Connected!", "You've connected to " + e.Device.Name, "Wow!");
+        }
     }
 }

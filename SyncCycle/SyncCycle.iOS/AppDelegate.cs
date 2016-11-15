@@ -26,7 +26,7 @@ namespace SyncCycle.iOS
 		{
 			global::Xamarin.Forms.Forms.Init ();
 			LoadApplication (new SyncCycle.App ());
-            Xamarin.Forms.DependencyService.Register<IAdapter>();
+            Xamarin.Forms.DependencyService.Register<IAdapter,BluetoothLE.iOS.Adapter>();
 
 			return base.FinishedLaunching (app, options);
 		}
