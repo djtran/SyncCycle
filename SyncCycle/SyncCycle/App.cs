@@ -41,8 +41,6 @@ namespace SyncCycle
 
             List<BikeData> dummy = new List<BikeData>();
             dummy.Add(new BikeData());
-            dummy.Add(new BikeData());
-            dummy.Add(new BikeData());
             DataPage defaultPage = new DataPage(dummy);
 
             //delegate instance method to the event

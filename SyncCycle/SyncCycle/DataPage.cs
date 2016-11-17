@@ -14,10 +14,24 @@ namespace SyncCycle
     {
         private List<string> DeviceNames = new List<string>();
         private List<IDevice> DeviceList = new List<IDevice>();
+        IDevice connected = null;
         
         StackLayout search = new StackLayout()
         {
             VerticalOptions = LayoutOptions.End,
+        };
+
+        ScrollView searchWrap = new ScrollView()
+        {
+            VerticalOptions = LayoutOptions.FillAndExpand,
+            HorizontalOptions = LayoutOptions.FillAndExpand
+        };
+
+        StackLayout container = new StackLayout()
+        {
+            VerticalOptions = LayoutOptions.FillAndExpand,
+            HorizontalOptions = LayoutOptions.FillAndExpand,
+            Spacing = 10
         };
 
         public DataPage(List<BikeData> data)
@@ -30,7 +44,8 @@ namespace SyncCycle
                 HasUnevenRows = true,
                 Intent = TableIntent.Data,
                 Root = new TableRoot("Bike Diagnostics"),
-                VerticalOptions = LayoutOptions.StartAndExpand,
+                VerticalOptions = LayoutOptions.Start,
+                HeightRequest = 175
             };
 
             foreach (BikeData dataCell in data)
@@ -49,40 +64,38 @@ namespace SyncCycle
             b.Text = "Search for BLE devices";
             b.Clicked += OnButtonClicked;
 
-            Content = new ScrollView
-            {
-                VerticalOptions = LayoutOptions.FillAndExpand,
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                Content = new StackLayout
-                {
-                    VerticalOptions = LayoutOptions.FillAndExpand,
-                    HorizontalOptions = LayoutOptions.FillAndExpand,
-                    Children = {
-                        tableView,
-                        b,
-                        search
-                    },
-                    Spacing = 10
-                }
-            };
+            container.Children.Add(tableView);
+            container.Children.Add(searchWrap);
+            container.Children.Add(b);
+
+            Content = container;
+
+            App.BluetoothAdapter.ScanTimeoutElapsed += timedout;
+        }
+
+        private void timedout(object sender, EventArgs e)
+        {
+            updateSearchBox("Search ended.");   
         }
 
         void OnButtonClicked(object sender, EventArgs args)
         {
             // discover some devices
-            Console.WriteLine("Before Scan");
+            search.Children.Add(new Label { Text = "Searching..." });
+            searchWrap.Content = search;
             App.BluetoothAdapter.StartScanningForDevices();
-            Console.WriteLine("After Scan");
+            foreach(IDevice each in App.BluetoothAdapter.ConnectedDevices)
+            {
+                updateSearchBox(each.Name);
+            }
         }
 
         public void DeviceDiscovered(object sender, BluetoothLE.Core.Events.DeviceDiscoveredEventArgs e)
         {
-
-
-            //Search won't update.. Probably need to SetBinding() in order for it to update the display
-            Console.WriteLine("Before Device List");
+            //If any devices aren't currently in the list
             if (DeviceList.All(X => X.Id != e.Device.Id))
             {
+                //Add the devices and make a button for them.
                 DeviceList.Add(e.Device);
                 DeviceNames.Add(e.Device.Name);
                 Button b = new Button();
@@ -91,25 +104,65 @@ namespace SyncCycle
 
                 search.Children.Add(b);
             }
-            Console.WriteLine("After Device List");
+            searchWrap.Content = search;
         }
 
         void connectPls(object sender, EventArgs args)
         {
+            updateSearchBox("Attempting to connect");
             Button b= (Button) sender;
-            App.BluetoothAdapter.ConnectToDevice(DeviceList.Find(x => x.Name == b.Text));
-            App.BluetoothAdapter.DeviceConnected += connectSuccess;
-            App.BluetoothAdapter.DeviceFailedToConnect += connectFail;
+            connected = DeviceList.Find(x => x.Name == b.Text);
+            
+            if (connected != null)
+            {
+                updateSearchBox("Device connecting to: " + connected.Name);
+                App.BluetoothAdapter.ConnectToDevice(connected);
+                App.BluetoothAdapter.DeviceConnected += connectSuccess;
+                App.BluetoothAdapter.DeviceFailedToConnect += connectFail;
+            }
         }
 
         private void connectFail(object sender, DeviceConnectionEventArgs e)
         {
             DisplayAlert("Failed!", "Failed to connect to " + e.Device.Name + " with error message : " + e.ErrorMessage, "Aw man :<");
+            connected = null;
+            updateSearchBox("Failed to connect");
         }
 
         private void connectSuccess(object sender, DeviceConnectionEventArgs e)
         {
             DisplayAlert("Connected!", "You've connected to " + e.Device.Name, "Wow!");
+            e.Device.ServiceDiscovered += DeviceOnServiceDiscovered;
+            e.Device.DiscoverServices();
+            updateSearchBox("Connected to " + e.Device.Name);
+
+            Button com = new Button()
+            {
+                Text = "Communicate with Device"
+            };
+            com.Clicked += readTest;
+
+            container.Children.Add(com);
+        }
+
+        private void readTest(object sender, EventArgs e)
+        {
+            updateSearchBox("Attempting to read" + connected.Name);
+            connected.Services[0].Characteristics[0].Read();
+            Console.WriteLine(connected.Services[0].Characteristics[0].StringValue);
+            updateSearchBox(connected.Services[0].Characteristics[0].StringValue);
+
+        }
+
+        private void DeviceOnServiceDiscovered(object sender, ServiceDiscoveredEventArgs e)
+        {
+            e.Service.DiscoverCharacteristics();
+        }
+
+        void updateSearchBox(string words)
+        {
+            search.Children.Add(new Label { Text = words });
+            searchWrap.Content = search;
         }
     }
 }
