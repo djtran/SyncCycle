@@ -82,12 +82,15 @@ namespace SyncCycle
             }
         }
 
-        //DUMMY METHODS FOR TESTING
+
         public BikeData()
         {
-            tmr = new Timer(new TimerCallback(updateData), this, 1000, 1000);
+            //tmr = new Timer(new TimerCallback(updateData), this, 1000, 1000);
         }
 
+        /// <summary>
+        /// Dummy methods below for debug purposes.
+        /// </summary>
         void constructDisplayStrings()
         {
             Display1 = "Speed : " + metric1;

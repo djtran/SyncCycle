@@ -27,8 +27,9 @@ namespace SyncCycle.iOS
 			global::Xamarin.Forms.Forms.Init ();
 			LoadApplication (new SyncCycle.App ());
             Xamarin.Forms.DependencyService.Register<IAdapter,BluetoothLE.iOS.Adapter>();
+            OxyPlot.Xamarin.Forms.Platform.iOS.PlotViewRenderer.Init();
 
-			return base.FinishedLaunching (app, options);
+            return base.FinishedLaunching (app, options);
 		}
 	}
 }
