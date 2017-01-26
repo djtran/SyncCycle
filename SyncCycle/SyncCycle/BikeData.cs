@@ -68,7 +68,7 @@ namespace SyncCycle
         public float metric1 = 0;
         public float metric2 = 0;
         public float metric3 = 0;
-        private Timer tmr;
+        public Timer tmr;
 
         //Update the viewcell bound to this data object
         public event PropertyChangedEventHandler PropertyChanged;

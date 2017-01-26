@@ -24,7 +24,7 @@ namespace SyncCycle
 
     public class App : Application
 	{
-
+        private DataPage defaultPage;
         private static readonly IAdapter _bluetoothAdapter;
         public static IAdapter BluetoothAdapter { get { return _bluetoothAdapter; } }
 
@@ -43,7 +43,7 @@ namespace SyncCycle
             dummy.Add(new BikeData());
             dummy.Add(new BikeData());
             dummy.Add(new BikeData());
-            DataPage defaultPage = new DataPage(dummy);
+            defaultPage = new DataPage(dummy);
 
             //delegate instance method to the event
             _bluetoothAdapter.DeviceDiscovered += defaultPage.DeviceDiscovered;
@@ -64,6 +64,10 @@ namespace SyncCycle
 		protected override void OnSleep ()
 		{
 			// Handle when your app sleeps
+            foreach(BikeData dataCell in defaultPage.Data)
+            {
+                dataCell.tmr.Dispose();
+            }
 		}
 
 		protected override void OnResume ()

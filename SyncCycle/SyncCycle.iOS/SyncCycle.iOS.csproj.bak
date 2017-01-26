@@ -10,7 +10,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>SyncCycle.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>SyncCycleiOS</AssemblyName>
+    <AssemblyName>SyncCycle.iOS</AssemblyName>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>

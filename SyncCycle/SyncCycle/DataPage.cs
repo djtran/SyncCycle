@@ -14,6 +14,8 @@ namespace SyncCycle
     {
         private List<string> DeviceNames = new List<string>();
         private List<IDevice> DeviceList = new List<IDevice>();
+
+        public List<BikeData> Data = new List<BikeData>();
         
         StackLayout search = new StackLayout()
         {
@@ -23,6 +25,7 @@ namespace SyncCycle
         public DataPage(List<BikeData> data)
         {
             Padding = 20;
+            Data = data;
 
             var tableView = new TableView()
             {
@@ -38,7 +41,7 @@ namespace SyncCycle
                 DataViewCell temp = new DataViewCell();
                 temp.BindingContext = dataCell;
 
-                var sect = new TableSection("Some Shitty Section")
+                var sect = new TableSection("Some Section")
                 {
                     temp
                 };
@@ -80,26 +83,27 @@ namespace SyncCycle
 
 
             //Search won't update.. Probably need to SetBinding() in order for it to update the display
-            Console.WriteLine("Before Device List");
+            Console.WriteLine(DeviceList.All(X => X.Id != e.Device.Id));
+
             if (DeviceList.All(X => X.Id != e.Device.Id))
             {
                 DeviceList.Add(e.Device);
                 DeviceNames.Add(e.Device.Name);
                 Button b = new Button();
                 b.Text = e.Device.Name;
-                b.Clicked += connectPls;
+                b.Clicked += connectToDevice;
 
                 search.Children.Add(b);
             }
             Console.WriteLine("After Device List");
         }
 
-        void connectPls(object sender, EventArgs args)
+        void connectToDevice(object sender, EventArgs args)
         {
             Button b= (Button) sender;
-            App.BluetoothAdapter.ConnectToDevice(DeviceList.Find(x => x.Name == b.Text));
             App.BluetoothAdapter.DeviceConnected += connectSuccess;
             App.BluetoothAdapter.DeviceFailedToConnect += connectFail;
+            App.BluetoothAdapter.ConnectToDevice(DeviceList.Find(x => x.Name == b.Text));
         }
 
         private void connectFail(object sender, DeviceConnectionEventArgs e)
