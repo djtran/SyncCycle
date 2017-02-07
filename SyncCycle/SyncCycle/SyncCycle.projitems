@@ -10,12 +10,17 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BikeData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)BTDeviceButton.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataHandler.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)DataViewCell.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Profile.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\BikeData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DataHandler.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\DataViewCell.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\EnergyData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\GreenData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Data\KinematicsData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\DataPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NavigationPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingsPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\TabbedPageWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)GettingStarted.Xamarin" />

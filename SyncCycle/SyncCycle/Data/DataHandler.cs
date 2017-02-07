@@ -4,6 +4,7 @@ using OxyPlot.Series;
 using OxyPlot.Xamarin.Forms;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 using Xamarin.Forms;
 
@@ -12,11 +13,22 @@ namespace SyncCycle
 
     class DataHandler
     {
+
+        //One DataHandler per ride
+        DateTime date;
+
+        //Creating graphs and the like
         PlotModel speedometer = new PlotModel { Title = "Speedometer" };
         PlotModel sensor2 = new PlotModel { Title = "Sensor2" };
         PlotModel sensor3 = new PlotModel { Title = "Sensor3" };
 
+        //Energy
+        EnergyData energy = new EnergyData();
 
+        //CO2
+        GreenData green = new GreenData();
+
+        KinematicsData kinematics = new KinematicsData();
 
         public enum Sensor
         {
@@ -33,6 +45,8 @@ namespace SyncCycle
             initDataPlot(speedometer);
             initDataPlot(sensor2);
             initDataPlot(sensor3);
+
+            date = DateTime.Today;
 
         }
 
@@ -87,6 +101,16 @@ namespace SyncCycle
             }
             graph.Model.InvalidatePlot(true);
             return graph;
+        }
+
+        public List<BikeData> getData()
+        {
+            List<BikeData> list = new List<BikeData>();
+            list.Add(energy);
+            list.Add(green);
+            list.Add(kinematics);
+
+            return list;
         }
 
         public void receiveData(double time, double value, Sensor sensorEnum)

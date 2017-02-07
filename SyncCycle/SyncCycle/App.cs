@@ -8,7 +8,7 @@ using BluetoothLE.Core;
 using BluetoothLE.Core.Events;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
-
+using System.Collections;
 
 namespace SyncCycle
 {
@@ -40,14 +40,17 @@ namespace SyncCycle
 
         public App ()
 		{
-
             defaultPage = new DataPage();
-
             //delegate instance method to the event
             _bluetoothAdapter.DeviceDiscovered += defaultPage.b.DeviceDiscovered;
+
+            ArrayList pages = new ArrayList();
+            pages.Add(new NavigationPage());
+            pages.Add(defaultPage);
+            pages.Add(new SettingsPage());
             
             // The root page of your application
-            MainPage = defaultPage;
+            MainPage = new TabbedPageWrapper(pages);
 
         }
 
@@ -90,10 +93,7 @@ namespace SyncCycle
 		protected override void OnSleep ()
 		{
 			// Handle when your app sleeps
-            foreach(BikeData dataCell in defaultPage.Data)
-            {
-                dataCell.tmr.Dispose();
-            }
+
 		}
 
 		protected override void OnResume ()
