@@ -78,17 +78,6 @@ namespace SyncCycle
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string propName)
-        {
-            var changed = PropertyChanged;
-            if (changed != null)
-            {
-                PropertyChanged(this, new PropertyChangedEventArgs(propName));
-            }
-        }
-
         public void update(kData enumeration, float value)
         {
             switch (enumeration)

@@ -15,23 +15,9 @@ namespace SyncCycle
     {      
         
         public List<BikeData> Data = new List<BikeData>();
-        public BTDeviceButton b;
         public DataHandler data;
 
-        private PlotView plot;
-
-
-        StackLayout search = new StackLayout()
-        {
-            VerticalOptions = LayoutOptions.End,
-        };
-
-        ScrollView searchWrap = new ScrollView()
-        {
-            VerticalOptions = LayoutOptions.FillAndExpand,
-            HorizontalOptions = LayoutOptions.FillAndExpand,
-            HeightRequest = 100,
-        };
+        //private PlotView plot;
 
         StackLayout container = new StackLayout()
         {
@@ -40,16 +26,47 @@ namespace SyncCycle
             Spacing = 5
         };
 
-        public DataPage()
+        public DataPage(string rideID)
         {
             Title = "Data";
             BackgroundColor = Color.FromHex("#0079c2");
             Padding = 10;
-            data = new DataHandler();
+            data = new DataHandler(rideID);
 
+            //Create data views
+            createTable();
+
+            var debugButton = new Button()
+            {
+                Text = "Send some dummy data",
+            };
+            debugButton.Clicked += debugData;
+            
+            //plot = data.getPlot(DataHandler.Sensor.speedometer);
+
+            
+
+            container.Children.Add(debugButton);
+            //container.Children.Add(plot);
+            
+
+            Content = container;
+
+            //whenever you change data, remember to invalidate.
+            //data.receiveData(1, 2, DataHandler.Sensor.speedometer);
+            //data.receiveData(2, 5, DataHandler.Sensor.speedometer);
+            //data.receiveData(3, 15, DataHandler.Sensor.speedometer);
+            //data.receiveData(4, 20, DataHandler.Sensor.speedometer);
+            //data.receiveData(5, 15, DataHandler.Sensor.speedometer);
+            //data.receiveData(6, 5, DataHandler.Sensor.speedometer);
+            //data.receiveData(7, 2, DataHandler.Sensor.speedometer);
+            //plot.Model.InvalidatePlot(true);
+        }
+
+        private void createTable()
+        {
             var tableView = new TableView()
             {
-                BackgroundColor = Color.FromRgb(8, 93, 159),
                 HasUnevenRows = true,
                 Intent = TableIntent.Data,
                 Root = new TableRoot("Bike Diagnostics"),
@@ -57,7 +74,6 @@ namespace SyncCycle
             };
 
             var tableData = data.getData();
-
 
             bool alternate = true;
             foreach (BikeData dataCell in tableData)
@@ -73,50 +89,17 @@ namespace SyncCycle
                 tableView.Root.Add(sect);
             }
 
-            b = new BTDeviceButton(this);
-            
-            //plot = data.getPlot(DataHandler.Sensor.speedometer);
-
             container.Children.Add(tableView);
-            //container.Children.Add(plot);
-            container.Children.Add(searchWrap);
-            container.Children.Add(b);
-
-            Content = container;
-
-            //whenever you change data, remember to invalidate.
-            //data.receiveData(1, 2, DataHandler.Sensor.speedometer);
-            //data.receiveData(2, 5, DataHandler.Sensor.speedometer);
-            //data.receiveData(3, 15, DataHandler.Sensor.speedometer);
-            //data.receiveData(4, 20, DataHandler.Sensor.speedometer);
-            //data.receiveData(5, 15, DataHandler.Sensor.speedometer);
-            //data.receiveData(6, 5, DataHandler.Sensor.speedometer);
-            //data.receiveData(7, 2, DataHandler.Sensor.speedometer);
-            //plot.Model.InvalidatePlot(true);
-
-            App.BluetoothAdapter.ScanTimeoutElapsed += timedout;
         }
 
-        private void timedout(object sender, EventArgs e)
-        {
-            updateSearchBox("Search ended.");   
-        }
 
-        public void updateSearchBox(string words)
-        {
-            search.Children.Add(new Label { Text = words });
-            searchWrap.Content = search;
-        }
 
-        public void updateSearchBox(View visual)
+        private void debugData(object sender, EventArgs args)
         {
-            search.Children.Add(visual);
-            searchWrap.Content = search;
-        }
-
-        public void updateContainer(View visual)
-        {
-            container.Children.Add(visual);
+            Random rnd = new Random();
+            data.energy.update(eData.Save, rnd.Next(1, 30));
+            data.green.update(co2Data.Prevented, rnd.Next(1, 20));
+            data.kinematics.update(kData.dTraveled, rnd.Next(1, 20));
         }
 
     }

@@ -15,9 +15,9 @@ namespace SyncCycle.DataVisuals
         public List<string> DeviceNames = new List<string>();
         public List<IDevice> DeviceList = new List<IDevice>();
         IDevice connected = null;
-        DataPage pageToUpdate;
+        SettingsPage pageToUpdate;
 
-        public BTDeviceButton(DataPage page)
+        public BTDeviceButton(SettingsPage page)
         {
             pageToUpdate = page;
             Text = "Search for BLE devices";
@@ -32,6 +32,7 @@ namespace SyncCycle.DataVisuals
             foreach (IDevice each in App.BluetoothAdapter.ConnectedDevices)
             {
                 pageToUpdate.updateSearchBox(each.Name);
+                Console.WriteLine(each.Name);
             }
         }
 

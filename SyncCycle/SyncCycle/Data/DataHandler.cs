@@ -15,20 +15,17 @@ namespace SyncCycle
     {
 
         //One DataHandler per ride
-        DateTime date;
+        string rideID;
 
         //Creating graphs and the like
         PlotModel speedometer = new PlotModel { Title = "Speedometer" };
         PlotModel sensor2 = new PlotModel { Title = "Sensor2" };
         PlotModel sensor3 = new PlotModel { Title = "Sensor3" };
 
-        //Energy
-        EnergyData energy = new EnergyData();
-
-        //CO2
-        GreenData green = new GreenData();
-
-        KinematicsData kinematics = new KinematicsData();
+        //Data Modules
+        public EnergyData energy = new EnergyData();
+        public GreenData green = new GreenData();
+        public KinematicsData kinematics = new KinematicsData();
 
         public enum Sensor
         {
@@ -37,7 +34,7 @@ namespace SyncCycle
             sensor3
         };
         
-        public DataHandler()
+        public DataHandler(string rideID)
         {
             initAxes(speedometer);
             initAxes(sensor2);
@@ -46,8 +43,42 @@ namespace SyncCycle
             initDataPlot(sensor2);
             initDataPlot(sensor3);
 
-            date = DateTime.Today;
+            if(rideID != "")
+            {
+                getRideFromID(rideID);
+            }
+            else
+            {
+                askForID();
+            }
+        }
 
+
+
+        public bool askForID()
+        {
+            DateTime date = DateTime.Today;
+
+            //TO DO
+            //send request over bluetooth to get an ID
+            //bluetooth should respond at some point pls.
+
+            //asynchronously populate the ID?
+
+            return true;
+        }
+
+        public bool getRideFromID(string ID)
+        {
+            //TO DO
+            //send request over bluetooth to get ride by ID
+            //bluetooth should return with json objects
+            //**Maybe we should just pull stat objects, and the graph objects can be a separate pull
+
+            //create EnergyData, GreenData, and KinematicsData from json objects
+
+            //true = success, false = failed somewhere along the way
+            return true;
         }
 
         private void initAxes(PlotModel model)

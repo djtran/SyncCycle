@@ -27,6 +27,8 @@ namespace SyncCycle.Droid
 		public static void UpdateIdValues()
 		{
 			global::BluetoothLE.Droid.Resource.String.library_name = global::SyncCycle.Droid.Resource.String.library_name;
+			global::PCLStorage.Resource.String.ApplicationName = global::SyncCycle.Droid.Resource.String.ApplicationName;
+			global::PCLStorage.Resource.String.Hello = global::SyncCycle.Droid.Resource.String.Hello;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::SyncCycle.Droid.Resource.Attribute.actionBarSize;
 		}
 		
@@ -2415,52 +2417,55 @@ namespace SyncCycle.Droid
 			public const int Icon = 2130837691;
 			
 			// aapt resource value: 0x7f0200bc
-			public const int mr_dialog_material_background_dark = 2130837692;
+			public const int Logo = 2130837692;
 			
 			// aapt resource value: 0x7f0200bd
-			public const int mr_dialog_material_background_light = 2130837693;
+			public const int mr_dialog_material_background_dark = 2130837693;
 			
 			// aapt resource value: 0x7f0200be
-			public const int mr_ic_audiotrack_light = 2130837694;
+			public const int mr_dialog_material_background_light = 2130837694;
 			
 			// aapt resource value: 0x7f0200bf
-			public const int mr_ic_cast_dark = 2130837695;
+			public const int mr_ic_audiotrack_light = 2130837695;
 			
 			// aapt resource value: 0x7f0200c0
-			public const int mr_ic_cast_light = 2130837696;
+			public const int mr_ic_cast_dark = 2130837696;
 			
 			// aapt resource value: 0x7f0200c1
-			public const int mr_ic_close_dark = 2130837697;
+			public const int mr_ic_cast_light = 2130837697;
 			
 			// aapt resource value: 0x7f0200c2
-			public const int mr_ic_close_light = 2130837698;
+			public const int mr_ic_close_dark = 2130837698;
 			
 			// aapt resource value: 0x7f0200c3
-			public const int mr_ic_media_route_connecting_mono_dark = 2130837699;
+			public const int mr_ic_close_light = 2130837699;
 			
 			// aapt resource value: 0x7f0200c4
-			public const int mr_ic_media_route_connecting_mono_light = 2130837700;
+			public const int mr_ic_media_route_connecting_mono_dark = 2130837700;
 			
 			// aapt resource value: 0x7f0200c5
-			public const int mr_ic_media_route_mono_dark = 2130837701;
+			public const int mr_ic_media_route_connecting_mono_light = 2130837701;
 			
 			// aapt resource value: 0x7f0200c6
-			public const int mr_ic_media_route_mono_light = 2130837702;
+			public const int mr_ic_media_route_mono_dark = 2130837702;
 			
 			// aapt resource value: 0x7f0200c7
-			public const int mr_ic_pause_dark = 2130837703;
+			public const int mr_ic_media_route_mono_light = 2130837703;
 			
 			// aapt resource value: 0x7f0200c8
-			public const int mr_ic_pause_light = 2130837704;
+			public const int mr_ic_pause_dark = 2130837704;
 			
 			// aapt resource value: 0x7f0200c9
-			public const int mr_ic_play_dark = 2130837705;
+			public const int mr_ic_pause_light = 2130837705;
 			
 			// aapt resource value: 0x7f0200ca
-			public const int mr_ic_play_light = 2130837706;
+			public const int mr_ic_play_dark = 2130837706;
 			
 			// aapt resource value: 0x7f0200cb
-			public const int notification_template_icon_bg = 2130837707;
+			public const int mr_ic_play_light = 2130837707;
+			
+			// aapt resource value: 0x7f0200cc
+			public const int notification_template_icon_bg = 2130837708;
 			
 			static Drawable()
 			{
@@ -3220,6 +3225,12 @@ namespace SyncCycle.Droid
 		public partial class String
 		{
 			
+			// aapt resource value: 0x7f060046
+			public const int ApplicationName = 2131099718;
+			
+			// aapt resource value: 0x7f060045
+			public const int Hello = 2131099717;
+			
 			// aapt resource value: 0x7f06002e
 			public const int abc_action_bar_home_description = 2131099694;
 			
@@ -3379,8 +3390,8 @@ namespace SyncCycle.Droid
 			// aapt resource value: 0x7f06001e
 			public const int common_signin_button_text_long = 2131099678;
 			
-			// aapt resource value: 0x7f060045
-			public const int library_name = 2131099717;
+			// aapt resource value: 0x7f060047
+			public const int library_name = 2131099719;
 			
 			// aapt resource value: 0x7f06001f
 			public const int mr_button_content_description = 2131099679;
@@ -4552,6 +4563,9 @@ namespace SyncCycle.Droid
 			
 			// aapt resource value: 0x7f0b0016
 			public const int Widget_MediaRouter_MediaRouteButton = 2131427350;
+			
+			// aapt resource value: 0x7f0b0172
+			public const int splashscreen = 2131427698;
 			
 			static Style()
 			{

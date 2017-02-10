@@ -6,8 +6,6 @@ using System.Text;
 using Xamarin.Forms;
 using BluetoothLE.Core;
 using BluetoothLE.Core.Events;
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
 using System.Collections;
 
 namespace SyncCycle
@@ -26,7 +24,6 @@ namespace SyncCycle
 
     public class App : Application
 	{
-        private DataPage defaultPage;
         private static readonly IAdapter _bluetoothAdapter;
         public static IAdapter BluetoothAdapter { get { return _bluetoothAdapter; } }
 
@@ -40,50 +37,20 @@ namespace SyncCycle
 
         public App ()
 		{
-            defaultPage = new DataPage();
+            SettingsPage page = new SettingsPage();
             //delegate instance method to the event
-            _bluetoothAdapter.DeviceDiscovered += defaultPage.b.DeviceDiscovered;
+            _bluetoothAdapter.DeviceDiscovered += page.b.DeviceDiscovered;
 
             ArrayList pages = new ArrayList();
             pages.Add(new NavigationPage());
-            pages.Add(defaultPage);
-            pages.Add(new SettingsPage());
+            pages.Add(new DataPage(""));
+            pages.Add(page);
             
             // The root page of your application
             MainPage = new TabbedPageWrapper(pages);
-
         }
 
-        async void checkPerms(ContentPage mainpage)
-        {
-            try
-            {
-                var stat = await CrossPermissions.Current.CheckPermissionStatusAsync(Permission.Location);
-                if(stat != PermissionStatus.Granted)
-                {
-                    if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
-                    {
-                        await mainpage.DisplayAlert("Need location", "Gunna need that location", "OK");
-                    }
-
-                    var results = await CrossPermissions.Current.RequestPermissionsAsync(new[] { Permission.Location });
-                    stat = results[Permission.Location];
-                }
-                if (stat == PermissionStatus.Granted)
-                {
-                    await mainpage.DisplayAlert("Location Allowed", "Hopefully this means we can continue!", "OK");
-                }
-                else if (stat != PermissionStatus.Unknown)
-                {
-                    await mainpage.DisplayAlert("Location Denied", "Can not continue, try again.", "OK");
-                }
-            }
-            catch (Exception ex)
-            {
-
-                Console.WriteLine("Exception " + ex.Message + " encountered when checking for permissions.");
-            }
-        }
+       
 
         protected override void OnStart ()
 		{
