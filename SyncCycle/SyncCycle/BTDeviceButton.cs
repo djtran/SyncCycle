@@ -15,6 +15,8 @@ namespace SyncCycle.DataVisuals
         public List<string> DeviceNames = new List<string>();
         public List<IDevice> DeviceList = new List<IDevice>();
         IDevice connected = null;
+
+        public List<IService> services = new List<IService>();
         SettingsPage pageToUpdate;
 
         public BTDeviceButton(SettingsPage page)
@@ -69,39 +71,69 @@ namespace SyncCycle.DataVisuals
 
         private void connectFail(object sender, DeviceConnectionEventArgs e)
         {
-            pageToUpdate.DisplayAlert("Failed!", "Failed to connect to " + e.Device.Name + " with error message : " + e.ErrorMessage, "Aw man :<");
-            connected = null;
-            pageToUpdate.updateSearchBox("Failed to connect");
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                pageToUpdate.DisplayAlert("Failed!", "Failed to connect to " + e.Device.Name + " with error message : " + e.ErrorMessage, "Aw man :<");
+                connected = null;
+                pageToUpdate.updateSearchBox("Failed to connect");
+            });
         }
 
         private void connectSuccess(object sender, DeviceConnectionEventArgs e)
         {
-            pageToUpdate.DisplayAlert("Connected!", "You've connected to " + e.Device.Name, "Wow!");
             e.Device.ServiceDiscovered += DeviceOnServiceDiscovered;
             e.Device.DiscoverServices();
             pageToUpdate.updateSearchBox("Connected to " + e.Device.Name);
 
-            Button com = new Button()
-            {
-                Text = "Communicate with Device"
-            };
-            com.Clicked += readTest;
 
-            pageToUpdate.updateContainer(com);
+            Device.BeginInvokeOnMainThread(() => {
+                pageToUpdate.DisplayAlert("Connected!", "You've connected to " + e.Device.Name, "Wow!");
+                Button com = new Button()
+                {
+                    Text = "Communicate with Device"
+                };
+                com.Clicked += readTest;
+
+                pageToUpdate.updateContainer(com);
+            });
         }
 
         private void readTest(object sender, EventArgs e)
         {
-            pageToUpdate.updateSearchBox("Attempting to read" + connected.Name);
-            connected.Services[0].Characteristics[0].Read();
-            Console.WriteLine(connected.Services[0].Characteristics[0].StringValue);
-            pageToUpdate.updateSearchBox(connected.Services[0].Characteristics[0].StringValue);
+            pageToUpdate.updateSearchBox("Attempting to read " + connected.Name + ", there are " + services.Count + " services available.");
+            if(services.Count > 0)
+            {
+                foreach (IService iserv in services)
+                {
 
+                    if (iserv.Characteristics.Count > 0)
+                    {
+                        foreach(ICharacteristic each in iserv.Characteristics)
+                        {
+                            if(each.CanRead)
+                            {
+                                pageToUpdate.updateSearchBox(each.Uuid);
+                                pageToUpdate.updateSearchBox(each.StringValue);
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private void DeviceOnServiceDiscovered(object sender, ServiceDiscoveredEventArgs e)
         {
+            services.Add(e.Service);
+            
+            e.Service.CharacteristicDiscovered += printCharacteristics;
             e.Service.DiscoverCharacteristics();
+            Console.WriteLine("Service ID Discovered: " + e.Service.Id + "Is Primary? : " + e.Service.IsPrimary);
+            Console.WriteLine("Discovering Characteristics");
+        }
+
+        private void printCharacteristics(object sender, CharacteristicDiscoveredEventArgs e)
+        {
+            Console.WriteLine("Characteristic discovered : " + e.Characteristic.Uuid.ToString());
         }
     }
 }

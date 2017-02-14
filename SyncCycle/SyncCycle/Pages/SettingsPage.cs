@@ -36,9 +36,10 @@ namespace SyncCycle
             Padding = 20;
 
             Title = "Settings";
-            BackgroundColor = Color.FromRgb(128, 64, 32);
+            BackgroundColor = Color.FromRgb(29,17,96);
 
             b = new BTDeviceButton(this);
+            App.BluetoothAdapter.DeviceDiscovered += b.DeviceDiscovered;
 
             container.Children.Add(searchWrap);
             container.Children.Add(b);
@@ -54,20 +55,28 @@ namespace SyncCycle
 
         public void updateSearchBox(string words)
         {
-            search.Children.Add(new Label { Text = words });
-            searchWrap.Content = search;
+            Device.BeginInvokeOnMainThread(() => {
+                search.Children.Add(new Label { Text = words });
+                searchWrap.Content = search;
+            });
+
         }
 
         public void updateSearchBox(View visual)
         {
-            search.Children.Add(visual);
-            searchWrap.Content = search;
+            Device.BeginInvokeOnMainThread(() => {
+                search.Children.Add(visual);
+                searchWrap.Content = search;
+            });
         }
 
         public void updateContainer(View visual)
         {
-            container.Children.Add(visual);
-            Content = container;
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                container.Children.Add(visual);
+                Content = container;
+            });
         }
     }
 }

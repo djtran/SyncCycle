@@ -29,8 +29,9 @@ namespace SyncCycle
         public DataPage(string rideID)
         {
             Title = "Data";
-            BackgroundColor = Color.FromHex("#0079c2");
+            BackgroundColor = Color.FromRgb(29,17,96);
             Padding = 10;
+ 
             data = new DataHandler(rideID);
 
             //Create data views
@@ -38,7 +39,7 @@ namespace SyncCycle
 
             var debugButton = new Button()
             {
-                Text = "Send some dummy data",
+                Text = "'Receive' some dummy data",
             };
             debugButton.Clicked += debugData;
             
@@ -89,7 +90,14 @@ namespace SyncCycle
                 tableView.Root.Add(sect);
             }
 
-            container.Children.Add(tableView);
+            var tableFrame = new Frame()
+            {
+                BackgroundColor = Color.FromRgb(0, 121, 193),
+                Content = tableView,
+                VerticalOptions = LayoutOptions.FillAndExpand,
+            };
+
+            container.Children.Add(tableFrame);
         }
 
 

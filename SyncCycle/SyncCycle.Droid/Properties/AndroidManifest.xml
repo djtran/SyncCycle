@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionName="0.1" package="SyncCycle.Droid" android:versionCode="1">
 	<uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23" />
-	<application android:label="SyncCycle" android:icon="@drawable/Icon"></application>
+	<application android:label="SyncCycle" android:icon="@mipmap/ic_launcher"></application>
 	<uses-permission android:name="android.permission.BLUETOOTH" />
 	<uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 	<!--this is necessary for Android v6+ to get the device name and address-->

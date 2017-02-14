@@ -14,7 +14,7 @@ namespace SyncCycle
         {
 
             Title = "Navigation";
-            BackgroundColor = Color.FromRgb(32, 64, 128);
+            BackgroundColor = Color.FromRgb(29,17,96);
 
         }
 
@@ -23,6 +23,11 @@ namespace SyncCycle
             base.OnAppearing();
 
             checkPerms();
+        }
+
+        async Task checkBluetoothOn()
+        {
+
         }
 
         async Task checkPerms()

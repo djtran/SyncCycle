@@ -14,6 +14,9 @@ namespace SyncCycle
             {
                 Children.Add(page);
             }
+
+            BarBackgroundColor = Color.FromRgb(0, 0, 127);
+            BarTextColor = Color.FromRgb(255, 194, 34);
         }
     }
 }

@@ -37,14 +37,10 @@ namespace SyncCycle
 
         public App ()
 		{
-            SettingsPage page = new SettingsPage();
-            //delegate instance method to the event
-            _bluetoothAdapter.DeviceDiscovered += page.b.DeviceDiscovered;
-
             ArrayList pages = new ArrayList();
             pages.Add(new NavigationPage());
             pages.Add(new DataPage(""));
-            pages.Add(page);
+            pages.Add(new SettingsPage());
             
             // The root page of your application
             MainPage = new TabbedPageWrapper(pages);
