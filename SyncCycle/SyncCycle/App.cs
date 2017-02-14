@@ -7,6 +7,9 @@ using Xamarin.Forms;
 using BluetoothLE.Core;
 using BluetoothLE.Core.Events;
 using System.Collections;
+using Xamarin.Forms;
+using Xamarin.Forms.Maps;
+using Plugin.Geolocator;
 
 namespace SyncCycle
 {

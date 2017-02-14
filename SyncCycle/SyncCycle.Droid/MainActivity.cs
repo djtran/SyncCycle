@@ -21,6 +21,8 @@ namespace SyncCycle.Droid
             Xamarin.Forms.DependencyService.Register<BluetoothLE.Core.IAdapter, BluetoothLE.Droid.Adapter>();
             global::Xamarin.Forms.Forms.Init (this, bundle);
             OxyPlot.Xamarin.Forms.Platform.Android.PlotViewRenderer.Init();
+            global::Xamarin.Forms.Forms.Init(this, bundle);
+            global::Xamarin.FormsMaps.Init(this, bundle);
 
             LoadApplication (new SyncCycle.App ());
 		}

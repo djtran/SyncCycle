@@ -5,19 +5,46 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using Xamarin.Forms;
 using System.Threading.Tasks;
+using Xamarin.Forms.Maps;
+using Plugin.Geolocator;
+
 
 namespace SyncCycle
 {
     class NavigationPage : ContentPage
     {
+
+        Position p;
+        Map map = new Map(
+              MapSpan.FromCenterAndRadius(new Position(42.3432733, -71.1074225), Distance.FromMiles(0.3)));
+
         public NavigationPage()
         {
 
             Title = "Navigation";
-            BackgroundColor = Color.FromRgb(29,17,96);
+            Content = new StackLayout()
+            {
+
+                Children =
+                    {
+                          map
+                    }
+            };
 
         }
 
+
+        public async void help()
+        {
+            var locator = CrossGeolocator.Current;
+            locator.DesiredAccuracy = 50;
+            var temp = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
+
+            p = new Position(temp.Latitude, temp.Longitude);
+            Console.WriteLine("THIS IS THE POSTION: (" + p + ")");
+            map.MoveToRegion(new MapSpan(map.VisibleRegion.Center, p.Latitude, p.Longitude));
+
+        }
         protected override void OnAppearing()
         {
             base.OnAppearing();
