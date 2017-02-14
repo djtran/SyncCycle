@@ -80,11 +80,11 @@ namespace SyncCycle
 
                 if (stat == PermissionStatus.Granted)
                 {
-                    await DisplayAlert("Location Allowed", "Hopefully this means we can continue!", "OK");
+                    Console.WriteLine("We got permissions-desu.");
                 }
                 else if (stat != PermissionStatus.Unknown)
                 {
-                    await DisplayAlert("Location Denied", "Can not continue, try again.", "OK");
+                    await DisplayAlert("Location Denied", "Can not continue.", "OK");
                 }
                 else
                 {
