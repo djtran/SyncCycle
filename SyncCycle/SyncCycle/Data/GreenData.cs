@@ -15,7 +15,7 @@ namespace SyncCycle
         float co2Prevented;
 
         //Bound to DataViewCell.cs//
-        public string imgURI { get; set; } = "Icon.png";
+        public string imgURI { get; set; } = "leaf.png";
         public string Display1
         {
             get

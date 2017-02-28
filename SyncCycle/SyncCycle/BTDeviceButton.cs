@@ -24,6 +24,9 @@ namespace SyncCycle.DataVisuals
             pageToUpdate = page;
             Text = "Search for BLE devices";
             Clicked += OnButtonClicked;
+            BackgroundColor = Color.FromRgb(192, 192, 192);
+            TextColor = Color.FromRgb(24,24,24);
+            Margin = 20;
         }
         void OnButtonClicked(object sender, EventArgs args)
         {

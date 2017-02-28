@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="SyncCycle.App">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAABAABACAAgAEAAAAAAAAAAACIAAAAAAAAAAIAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\App.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="RideListPage" />
+      <Property Name="SettingsPage" />
+      <Property Name="NavPage" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SyncCycle.BikeData">
+    <Position X="0.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAQAAAAAAAIAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\BikeData.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="SyncCycle.DataHandler">
+    <Position X="6.25" Y="0.5" Width="1.5" />
+    <NestedTypes>
+      <Enum Name="SyncCycle.DataHandler.Sensor" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\DataHandler.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>UAAQAAAAIEAQAAQCAAAACAABAAAAAAAABhAAAIIAAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\DataHandler.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="KinematicsData" />
+      <Property Name="EnergyData" />
+      <Property Name="GreenData" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SyncCycle.DataViewCell">
+    <Position X="12.75" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\DataViewCell.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SyncCycle.EnergyData" Collapsed="true">
+    <Position X="3.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAoAACAAAEAAAAAACAAAAAgAAAIAAAACAAAAAAQEAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\EnergyData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SyncCycle.GreenData" Collapsed="true">
+    <Position X="3.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAACAAAAAgAAAAAAAAAABAAAAAEAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\GreenData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SyncCycle.KinematicsData" Collapsed="true">
+    <Position X="3.5" Y="1.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAACAAEAIAAFAACAAAAAgAAAIAAQADAAAAAAQEAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\KinematicsData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SyncCycle.DataPage">
+    <Position X="12.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAABAAACAAAAAAAAAAAAAABAAQAAAAAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Pages\DataPage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DataViewCell" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SyncCycle.NavPage">
+    <Position X="18.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAgAAAgACAAAAAAAAAAAgAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Pages\NavPage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SyncCycle.RideListPage">
+    <Position X="14.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DAAAEgAAEAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Pages\RideListPage.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="DataPage" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="SyncCycle.SettingsPage">
+    <Position X="16.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAABQAAAIQAIAAAASAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Pages\SettingsPage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SyncCycle.DataVisuals.BTDeviceButton" Collapsed="true">
+    <Position X="10" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEAAABBIEAAAABAAAAAgAAAAAEASAAAAAAAAIEAAAE=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\BTDeviceButton.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SyncCycle.Droid.MainActivity" Collapsed="true">
+    <Position X="6.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>MainActivity.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SyncCycle.Droid.MainApplication" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="8.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAgAMAAAAAAAAAgAAAAAAAACAAAAAAAAAAAIAEEAA=</HashCode>
+      <FileName>MainApplication.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Enum Name="SyncCycle.ViewType">
+    <Position X="14.5" Y="6.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAABAQAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\DataViewCell.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SyncCycle.eData">
+    <Position X="2.5" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\EnergyData.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SyncCycle.co2Data">
+    <Position X="0.75" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\GreenData.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="SyncCycle.kData">
+    <Position X="4.25" Y="4" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAEAAAAAAAAAAAAAAAQABAAAAAAAAAAA=</HashCode>
+      <FileName>C:\Users\David\Source\Repos\SyncCycle\SyncCycle\SyncCycle\Data\KinematicsData.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

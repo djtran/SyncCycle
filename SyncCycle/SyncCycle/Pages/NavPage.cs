@@ -11,14 +11,14 @@ using Plugin.Geolocator;
 
 namespace SyncCycle
 {
-    class NavigationPage : ContentPage
+    class NavPage : ContentPage
     {
 
         Position p;
         Map map = new Map(
               MapSpan.FromCenterAndRadius(new Position(42.3432733, -71.1074225), Distance.FromMiles(0.3)));
 
-        public NavigationPage()
+        public NavPage()
         {
 
             Title = "Navigation";

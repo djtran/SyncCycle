@@ -255,6 +255,18 @@
       <InProject>false</InProject>
     </ImageAsset>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\settings_logo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\leaf.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\lightbulb_o.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\tachometer.png" />
+  </ItemGroup>
   <Import Project="..\SyncCycle\SyncCycle.projitems" Label="Shared" Condition="Exists('..\SyncCycle\SyncCycle.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <Import Project="..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets" Condition="Exists('..\..\packages\Xamarin.Forms.2.3.3.180\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+Xamarin.iOS10+xamarinmac20\Xamarin.Forms.targets')" />

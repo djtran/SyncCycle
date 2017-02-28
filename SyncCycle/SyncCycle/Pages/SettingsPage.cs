@@ -33,19 +33,53 @@ namespace SyncCycle
         public SettingsPage()
         {
 
-            Padding = 20;
-
             Title = "Settings";
-            BackgroundColor = Color.FromRgb(29,17,96);
+            BackgroundColor = Color.FromRgb(48,48,48);
 
             b = new BTDeviceButton(this);
             App.BluetoothAdapter.DeviceDiscovered += b.DeviceDiscovered;
 
+            var branding = createBranding();
+
+            container.Children.Add(branding);
             container.Children.Add(searchWrap);
             container.Children.Add(b);
 
             Content = container;
             App.BluetoothAdapter.ScanTimeoutElapsed += timedout;
+        }
+
+        private View createBranding()
+        {
+            StackLayout branding = new StackLayout()
+            {
+                BackgroundColor = Color.FromRgb(29, 17, 96),
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.Fill,
+                Spacing = 0,
+                Padding = 25,
+            };
+
+            var logo = new Image()
+            {
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.CenterAndExpand,
+                Source = "settings_logo.png"
+            };
+
+            var company = new Label()
+            {
+                HorizontalOptions = LayoutOptions.Center,
+                VerticalOptions = LayoutOptions.StartAndExpand,
+                Text = "nationalgrid",
+                FontSize = 1.75*Device.GetNamedSize(NamedSize.Large, typeof(Label)),
+                FontAttributes = FontAttributes.Bold,
+            };
+
+            branding.Children.Add(logo);
+            branding.Children.Add(company);
+
+            return branding;
         }
 
         private void timedout(object sender, EventArgs e)

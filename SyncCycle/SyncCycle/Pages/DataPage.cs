@@ -14,7 +14,6 @@ namespace SyncCycle
     class DataPage : ContentPage
     {      
         
-        public List<BikeData> Data = new List<BikeData>();
         public DataHandler data;
 
         //private PlotView plot;
@@ -28,6 +27,7 @@ namespace SyncCycle
 
         public DataPage(string rideID)
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             Title = "Data";
             BackgroundColor = Color.FromRgb(29,17,96);
             Padding = 10;
@@ -42,12 +42,22 @@ namespace SyncCycle
                 Text = "'Receive' some dummy data",
             };
             debugButton.Clicked += debugData;
-            
+
+            var returnButton = new Button()
+            {
+                Text = "Return to list"
+            };
+            returnButton.Clicked += (s, e) =>
+            {
+                this.Navigation.PopAsync();
+            };
+
             //plot = data.getPlot(DataHandler.Sensor.speedometer);
 
-            
+
 
             container.Children.Add(debugButton);
+            container.Children.Add(returnButton);
             //container.Children.Add(plot);
             
 

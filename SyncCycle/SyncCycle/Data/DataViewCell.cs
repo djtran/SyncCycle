@@ -17,11 +17,13 @@ namespace SyncCycle
 
             var image = new Image
             {
+                VerticalOptions = LayoutOptions.Center,
                 HorizontalOptions = LayoutOptions.Start,
                 Margin = 5,
+
             };
             image.SetBinding(Image.SourceProperty, new Binding("imgURI"));
-            image.WidthRequest = image.HeightRequest = 50;
+            image.HeightRequest = image.WidthRequest = 60;
 
             StackLayout labelLayout;
 
@@ -74,9 +76,15 @@ namespace SyncCycle
 
             for(int i = 1; i <= number; i++)
             {
-                var label = new Label { HorizontalOptions = LayoutOptions.FillAndExpand, HorizontalTextAlignment = TextAlignment.Center };
+                var label = new Label {
+                    HorizontalOptions = LayoutOptions.FillAndExpand,
+                    HorizontalTextAlignment = TextAlignment.Center,
+                    FontSize = Device.GetNamedSize(NamedSize.Small, typeof(Label)),
+                    FontAttributes = FontAttributes.Bold
+                };
 
                 label.SetBinding(Label.TextProperty, new Binding("Display" + i.ToString()));
+
                 nameLayout.Children.Add(label);
             }
           

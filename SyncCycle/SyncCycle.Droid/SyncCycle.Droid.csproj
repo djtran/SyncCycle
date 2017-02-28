@@ -219,6 +219,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
@@ -256,6 +257,10 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\drawable\settings_logo.png" />
+    <AndroidResource Include="Resources\drawable\leaf.png" />
+    <AndroidResource Include="Resources\drawable\lightbulb_o.png" />
+    <AndroidResource Include="Resources\drawable\tachometer.png" />
     <Content Include="Resources\playstore-icon.png" />
   </ItemGroup>
   <Import Project="..\SyncCycle\SyncCycle.projitems" Label="Shared" Condition="Exists('..\SyncCycle\SyncCycle.projitems')" />

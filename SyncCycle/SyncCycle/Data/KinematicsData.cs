@@ -16,7 +16,7 @@ namespace SyncCycle
         float vAvg, vTop, dTraveled, tElapsed;
 
         //Bound to DataViewCell.cs//
-        public string imgURI { get; set; } = "Icon.png";
+        public string imgURI { get; set; } = "tachometer.png";
         public string Display1
         {
             get

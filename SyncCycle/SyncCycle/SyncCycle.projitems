@@ -18,9 +18,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Data\GreenData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\KinematicsData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\DataPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\NavigationPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\NavPage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Pages\RideListPage.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Pages\SettingsPage.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Pages\TabbedPageWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="$(MSBuildThisFileDirectory)GettingStarted.Xamarin" />

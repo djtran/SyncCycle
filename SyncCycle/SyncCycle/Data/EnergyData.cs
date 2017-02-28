@@ -16,7 +16,7 @@ namespace SyncCycle
         float eUsed, eEquiv, eSave;
 
         //Bound to DataViewCell.cs//
-        public string imgURI { get; set; } = "Icon.png";
+        public string imgURI { get; set; } = "lightbulb_o.png";
         public string Display1
         {
             get

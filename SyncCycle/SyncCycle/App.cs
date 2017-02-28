@@ -30,6 +30,42 @@ namespace SyncCycle
         private static readonly IAdapter _bluetoothAdapter;
         public static IAdapter BluetoothAdapter { get { return _bluetoothAdapter; } }
 
+        internal RideListPage RideListPage
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal SettingsPage SettingsPage
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
+        internal NavPage NavPage
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         static App()
         {
             _bluetoothAdapter = DependencyService.Get<IAdapter>();
@@ -41,12 +77,23 @@ namespace SyncCycle
         public App ()
 		{
             ArrayList pages = new ArrayList();
-            pages.Add(new NavigationPage());
-            pages.Add(new DataPage(""));
+
+            var rideListContainer = new NavigationPage(new RideListPage());
+            rideListContainer.Title = "Rides";
+
+            pages.Add(new NavPage());
+            pages.Add(rideListContainer);
             pages.Add(new SettingsPage());
             
             // The root page of your application
-            MainPage = new TabbedPageWrapper(pages);
+            var appContainer = new TabbedPage();
+            appContainer.BarTextColor=(Color.Purple);
+
+            appContainer.Children.Add(new NavPage());
+            appContainer.Children.Add(rideListContainer);
+            appContainer.Children.Add(new SettingsPage());
+
+            MainPage = appContainer;
         }
 
        
