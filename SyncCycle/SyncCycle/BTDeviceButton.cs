@@ -5,6 +5,7 @@ using System.Text;
 using System.Collections;
 using BluetoothLE.Core;
 using BluetoothLE.Core.Events;
+using System.Timers;
 
 using Xamarin.Forms;
 
@@ -15,18 +16,33 @@ namespace SyncCycle.DataVisuals
         public List<string> DeviceNames = new List<string>();
         public List<IDevice> DeviceList = new List<IDevice>();
         IDevice connected = null;
+        public IService service = null;
 
-        public List<IService> services = new List<IService>();
+        public ICharacteristic writeReq;
+        public ICharacteristic writeLoc;
+        public ICharacteristic readRide;
+        public ICharacteristic subscribe;
+
+        Guid serviceID = new Guid("28545278768c471993afc529485f9ab0");
+
         SettingsPage pageToUpdate;
+
+        Timer connectTimer;
 
         public BTDeviceButton(SettingsPage page)
         {
+            connectTimer = new Timer();
+            connectTimer.Elapsed += OnButtonClicked;
+            connectTimer.Interval = 2000;
+            connectTimer.Start();
+
+
             pageToUpdate = page;
-            Text = "Search for BLE devices";
-            Clicked += OnButtonClicked;
-            BackgroundColor = Color.FromRgb(192, 192, 192);
-            TextColor = Color.FromRgb(24,24,24);
-            Margin = 20;
+            //Text = "Search for BLE devices";
+            //Clicked += OnButtonClicked;
+            //BackgroundColor = Color.FromRgb(192, 192, 192);
+            //TextColor = Color.FromRgb(24,24,24);
+            //Margin = 20;
         }
         void OnButtonClicked(object sender, EventArgs args)
         {
@@ -43,34 +59,14 @@ namespace SyncCycle.DataVisuals
 
         public void DeviceDiscovered(object sender, BluetoothLE.Core.Events.DeviceDiscoveredEventArgs e)
         {
-            //If any devices aren't currently in the list
-            if (DeviceList.All(X => X.Id != e.Device.Id))
+            if(e.Device.Name.ToLower() == "synccycle")
             {
-                //Add the devices and make a button for them.
-                DeviceList.Add(e.Device);
-                DeviceNames.Add(e.Device.Name);
-                Button b = new Button();
-                b.Text = e.Device.Name;
-                b.Clicked += connectToDevice;
-
-                pageToUpdate.updateSearchBox(b);
-            }
-        }
-
-        void connectToDevice(object sender, EventArgs args)
-        {
-            pageToUpdate.updateSearchBox("Attempting to connect");
-            Button b = (Button)sender;
-            connected = DeviceList.Find(x => x.Name == b.Text);
-
-            if (connected != null)
-            {
-                pageToUpdate.updateSearchBox("Device connecting to: " + connected.Name);
-                App.BluetoothAdapter.ConnectToDevice(connected);
+                App.BluetoothAdapter.ConnectToDevice(e.Device);
                 App.BluetoothAdapter.DeviceConnected += connectSuccess;
                 App.BluetoothAdapter.DeviceFailedToConnect += connectFail;
             }
         }
+
 
         private void connectFail(object sender, DeviceConnectionEventArgs e)
         {
@@ -84,59 +80,62 @@ namespace SyncCycle.DataVisuals
 
         private void connectSuccess(object sender, DeviceConnectionEventArgs e)
         {
+            connected = e.Device;
             e.Device.ServiceDiscovered += DeviceOnServiceDiscovered;
             e.Device.DiscoverServices();
             pageToUpdate.updateSearchBox("Connected to " + e.Device.Name);
 
+            connectTimer.Stop();
 
-            Device.BeginInvokeOnMainThread(() => {
-                pageToUpdate.DisplayAlert("Connected!", "You've connected to " + e.Device.Name, "Wow!");
-                Button com = new Button()
-                {
-                    Text = "Communicate with Device"
-                };
-                com.Clicked += readTest;
-
-                pageToUpdate.updateContainer(com);
-            });
-        }
-
-        private void readTest(object sender, EventArgs e)
-        {
-            pageToUpdate.updateSearchBox("Attempting to read " + connected.Name + ", there are " + services.Count + " services available.");
-            if(services.Count > 0)
-            {
-                foreach (IService iserv in services)
-                {
-
-                    if (iserv.Characteristics.Count > 0)
-                    {
-                        foreach(ICharacteristic each in iserv.Characteristics)
-                        {
-                            if(each.CanRead)
-                            {
-                                pageToUpdate.updateSearchBox(each.Uuid);
-                                pageToUpdate.updateSearchBox(each.StringValue);
-                            }
-                        }
-                    }
-                }
-            }
         }
 
         private void DeviceOnServiceDiscovered(object sender, ServiceDiscoveredEventArgs e)
         {
-            services.Add(e.Service);
-            
-            e.Service.CharacteristicDiscovered += printCharacteristics;
-            e.Service.DiscoverCharacteristics();
+            if(e.Service.Id == serviceID)
+            {
+                service = e.Service;
+
+                service.CharacteristicDiscovered += saveCharacteristic;
+                service.DiscoverCharacteristics();
+            }
             Console.WriteLine("Service ID Discovered: " + e.Service.Id + "Is Primary? : " + e.Service.IsPrimary);
-            Console.WriteLine("Discovering Characteristics");
         }
 
-        private void printCharacteristics(object sender, CharacteristicDiscoveredEventArgs e)
+        private void saveCharacteristic(object sender, CharacteristicDiscoveredEventArgs e)
         {
             Console.WriteLine("Characteristic discovered : " + e.Characteristic.Uuid.ToString());
+
+            switch(e.Characteristic.Uuid.ToLower())
+            {
+                //Write Request
+                case "28545278768c471993afc5294aaaaaa0":
+                    writeReq = e.Characteristic;
+                    pageToUpdate.updateSearchBox("Write Request Characteristic saved");
+                    break;
+                
+                //Write Location
+                case "28545278768c471993afc5294aaaaaa2":
+                    writeLoc = e.Characteristic;
+                    pageToUpdate.updateSearchBox("Write Location Characteristic saved");
+                    break;
+                
+                //Read Current Ride
+                case "28545278768c471993afc5294bbbbbb0":
+                    readRide = e.Characteristic;
+                    pageToUpdate.updateSearchBox("Read Ride Characteristic saved");
+                    break;
+                
+                //Subscribe to Data feed
+                case "28545278768c471993afc5294cccccc0":
+                    subscribe = e.Characteristic;
+                    pageToUpdate.updateSearchBox("Subscribe Characteristic saved");
+                    break;
+
+                default:
+                    Console.WriteLine("Characteristic not from syncCycle : " + e.Characteristic.Uuid);
+                    break;
+            }
+
         }
     }
 }

@@ -74,6 +74,18 @@ namespace SyncCycle
             //plot.Model.InvalidatePlot(true);
         }
 
+        internal DataViewCell DataViewCell
+        {
+            get
+            {
+                throw new System.NotImplementedException();
+            }
+
+            set
+            {
+            }
+        }
+
         private void createTable()
         {
             var tableView = new TableView()

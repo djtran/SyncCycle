@@ -53,42 +53,6 @@ namespace SyncCycle
             }
         }
 
-        internal KinematicsData KinematicsData
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        internal EnergyData EnergyData
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        internal GreenData GreenData
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
         public bool askForID()
         {
             DateTime date = DateTime.Today;
