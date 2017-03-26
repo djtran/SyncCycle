@@ -1,16 +1,12 @@
-﻿using SyncCycle.DataVisuals;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
 namespace SyncCycle
 {
-    class SettingsPage : ContentPage
+    public class SettingsPage : ContentPage
     {
-
-
-        public BTDeviceButton b;
 
         StackLayout search = new StackLayout()
         {
@@ -34,27 +30,15 @@ namespace SyncCycle
         public SettingsPage()
         {
 
-            Title = "Contact Us";
-            BackgroundColor = Color.FromRgb(48, 48, 48);
-
-            Button Emergency_Contact = new Button
-            {
-                Text = "Emergency Contact",
-                HorizontalOptions = LayoutOptions.Center
-            };
-            Emergency_Contact.Clicked += On_EM_Clicked;
-
-            b = new BTDeviceButton(this);
-            App.BluetoothAdapter.DeviceDiscovered += b.DeviceDiscovered;
+            Title = "Settings";
+            BackgroundColor = Color.FromRgb(48,48,48);
 
             var branding = createBranding();
 
             container.Children.Add(branding);
             container.Children.Add(searchWrap);
-            container.Children.Add(b);
-            container.Children.Add(Emergency_Contact);
+
             Content = container;
-            App.BluetoothAdapter.ScanTimeoutElapsed += timedout;
         }
 
         private View createBranding()
@@ -89,11 +73,7 @@ namespace SyncCycle
 
             return branding;
         }
-
-        private void timedout(object sender, EventArgs e)
-        {
-            updateSearchBox("Search ended.");
-        }
+        
 
         public void updateSearchBox(string words)
         {
@@ -120,11 +100,5 @@ namespace SyncCycle
                 Content = container;
             });
         }
-
-        void On_EM_Clicked(object sender, EventArgs e)
-        {
-            Device.OpenUri(new Uri("tel://911"));
-        }
-        
     }
 }
