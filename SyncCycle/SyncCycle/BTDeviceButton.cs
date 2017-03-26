@@ -33,7 +33,7 @@ namespace SyncCycle.DataVisuals
         {
             connectTimer = new Timer();
             connectTimer.Elapsed += OnButtonClicked;
-            connectTimer.Interval = 2000;
+            connectTimer.Interval = 10000;
             connectTimer.Start();
 
 
@@ -59,6 +59,7 @@ namespace SyncCycle.DataVisuals
 
         public void DeviceDiscovered(object sender, BluetoothLE.Core.Events.DeviceDiscoveredEventArgs e)
         {
+            Console.WriteLine(e.Device.Name.ToLower()); 
             if(e.Device.Name.ToLower() == "synccycle")
             {
                 App.BluetoothAdapter.ConnectToDevice(e.Device);

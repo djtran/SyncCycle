@@ -22,15 +22,32 @@ namespace SyncCycle
 
         public NavPage()
         {
+
+            Back_2_Home.Clicked += On_Back_2_Home_Clicked;
             Title = "Navigation";
             Content = new StackLayout()
             {
 
                 Children =
                     {
-                          map
+                          map, 
+                          Back_2_Home
                     }
             };       
+        }
+
+
+
+        Button Back_2_Home = new Button
+        {
+            Text = "Return to Hub",
+            HorizontalOptions = LayoutOptions.Center
+        };
+       
+
+       void On_Back_2_Home_Clicked(object sender, EventArgs e)
+        {
+            map_nv("912 Main St, Worcester, MA 01610");
         }
 
 
@@ -262,7 +279,7 @@ namespace SyncCycle
 
         }
 
-        /*
+        
         public void map_nv(string address)
         {
             var address_to_map = address;
@@ -279,7 +296,7 @@ namespace SyncCycle
                     break;
             }
         }
-        */
+        
         protected override void OnAppearing()
         {
             base.OnAppearing();

@@ -9,6 +9,7 @@ namespace SyncCycle
     class SettingsPage : ContentPage
     {
 
+
         public BTDeviceButton b;
 
         StackLayout search = new StackLayout()
@@ -33,8 +34,15 @@ namespace SyncCycle
         public SettingsPage()
         {
 
-            Title = "Settings";
-            BackgroundColor = Color.FromRgb(48,48,48);
+            Title = "Contact Us";
+            BackgroundColor = Color.FromRgb(48, 48, 48);
+
+            Button Emergency_Contact = new Button
+            {
+                Text = "Emergency Contact",
+                HorizontalOptions = LayoutOptions.Center
+            };
+            Emergency_Contact.Clicked += On_EM_Clicked;
 
             b = new BTDeviceButton(this);
             App.BluetoothAdapter.DeviceDiscovered += b.DeviceDiscovered;
@@ -44,7 +52,7 @@ namespace SyncCycle
             container.Children.Add(branding);
             container.Children.Add(searchWrap);
             container.Children.Add(b);
-
+            container.Children.Add(Emergency_Contact);
             Content = container;
             App.BluetoothAdapter.ScanTimeoutElapsed += timedout;
         }
@@ -112,5 +120,11 @@ namespace SyncCycle
                 Content = container;
             });
         }
+
+        void On_EM_Clicked(object sender, EventArgs e)
+        {
+            Device.OpenUri(new Uri("tel://911"));
+        }
+        
     }
 }
