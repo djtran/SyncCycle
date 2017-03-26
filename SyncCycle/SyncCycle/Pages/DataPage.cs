@@ -5,7 +5,6 @@ using System.Text;
 using System.Collections;
 
 using Xamarin.Forms;
-using SyncCycle.DataVisuals;
 using OxyPlot.Xamarin.Forms;
 using System.ComponentModel;
 

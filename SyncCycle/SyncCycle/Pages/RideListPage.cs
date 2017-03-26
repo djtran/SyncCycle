@@ -17,7 +17,6 @@ namespace SyncCycle
         {
             VerticalOptions = LayoutOptions.FillAndExpand,
             HorizontalOptions = LayoutOptions.FillAndExpand,
-
         };
 
         StackLayout container = new StackLayout()
@@ -34,6 +33,18 @@ namespace SyncCycle
 
             list.CollectionChanged += List_CollectionChanged;
 
+            Button toggleRide = new Button()
+            {
+                Text = "Start a new Ride",
+                HorizontalOptions = LayoutOptions.FillAndExpand,
+                VerticalOptions = LayoutOptions.End,
+                HeightRequest = 20,
+            };
+            toggleRide.Clicked += OnRideToggle;
+
+            container.Children.Add(scroller);
+            container.Children.Add(toggleRide);
+
             //#Debug page stacking and navigation up and down the stack.
             addRideListItem("12172016Ride1");
             addRideListItem("12222016Ride1");
@@ -49,18 +60,31 @@ namespace SyncCycle
             Content = scroller;
         }
 
-        internal DataPage DataPage
+        void OnRideToggle(object sender, EventArgs e)
         {
-            get
+            var butt = (Button)sender;
+            if(butt.Text.Contains("Start"))
             {
-                throw new System.NotImplementedException();
-            }
+                string req = "startRide";
+                byte[] data = Encoding.ASCII.GetBytes(req);
 
-            set
+                App.BluetoothHandler.writeReq.Write(data);
+
+
+                butt.Text = "End current ride";
+
+            }
+            else
             {
+                string req = "endRide";
+                byte[] data = Encoding.ASCII.GetBytes(req);
+
+                App.BluetoothHandler.writeReq.Write(data);
+    
+                butt.Text = "Start a new ride";
             }
         }
-
+       
         private void List_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             foreach(View la in e.NewItems)

@@ -4,6 +4,7 @@ using OxyPlot.Series;
 using OxyPlot.Xamarin.Forms;
 using System;
 using System.Collections.Generic;
+using BluetoothLE.Core.Events;
 using System.ComponentModel;
 using System.Text;
 using Xamarin.Forms;
@@ -13,7 +14,6 @@ namespace SyncCycle
 
     class DataHandler
     {
-
         //One DataHandler per ride
         string rideID;
 
@@ -45,7 +45,12 @@ namespace SyncCycle
 
             if(rideID != "")
             {
-                getRideFromID(rideID);
+                App.BluetoothHandler.readRide.Read();
+                if(rideID.ToUpper() == App.BluetoothHandler.readRide.StringValue.ToUpper())
+                {
+                    App.BluetoothHandler.subscribe.StartUpdates();
+                    App.BluetoothHandler.subscribe.ValueUpdated += subscribeDataBuffer;
+                }
             }
             else
             {
@@ -140,6 +145,43 @@ namespace SyncCycle
             list.Add(kinematics);
 
             return list;
+        }
+
+        public void subscribeDataBuffer(object sender, CharacteristicReadEventArgs args)
+        {
+            string[] halves = args.Characteristic.StringValue.Split(':');
+            float val = float.Parse(halves[1]);
+            
+            switch(halves[0])
+            {
+                case "energyUsed":
+                    energy.update(eData.Used, val);
+                    break;
+                case "energyEquiv":
+                    energy.update(eData.Equiv, val);
+                    break;
+                case "energySav":
+                    energy.update(eData.Save, val);
+                    break;
+                case "carbonEm":
+                    green.update(co2Data.Prevented, val);
+                    break;
+                case "speedAvg":
+                    kinematics.update(kData.vAvg, val);
+                    break;
+                case "speedTop":
+                    kinematics.update(kData.vTop, val);
+                    break;
+                case "distanceTra":
+                    kinematics.update(kData.dTraveled, val);
+                    break;
+                case "timeEla":
+                    kinematics.update(kData.tElapsed, val);
+                    break;
+                default:
+                    break;
+            }
+
         }
 
         public void receiveData(double time, double value, Sensor sensorEnum)

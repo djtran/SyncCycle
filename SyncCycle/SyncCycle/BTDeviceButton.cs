@@ -9,9 +9,9 @@ using System.Timers;
 
 using Xamarin.Forms;
 
-namespace SyncCycle.DataVisuals
+namespace SyncCycle
 {
-    class BTDeviceButton : Button
+    public class BTDeviceButton
     {
         public List<string> DeviceNames = new List<string>();
         public List<IDevice> DeviceList = new List<IDevice>();
@@ -25,24 +25,39 @@ namespace SyncCycle.DataVisuals
 
         Guid serviceID = new Guid("28545278768c471993afc529485f9ab0");
 
-        SettingsPage pageToUpdate;
+        public SettingsPage pageToUpdate;
 
         Timer connectTimer;
 
-        public BTDeviceButton(SettingsPage page)
+        public BTDeviceButton()
         {
             connectTimer = new Timer();
             connectTimer.Elapsed += OnButtonClicked;
             connectTimer.Interval = 2000;
             connectTimer.Start();
-
-
-            pageToUpdate = page;
+            
             //Text = "Search for BLE devices";
             //Clicked += OnButtonClicked;
             //BackgroundColor = Color.FromRgb(192, 192, 192);
             //TextColor = Color.FromRgb(24,24,24);
             //Margin = 20;
+        }
+
+        public void toggleTimer(bool on)
+        {
+            if(on)
+            {
+                connectTimer.Start();
+            }
+            else
+            {
+                connectTimer.Stop();
+            }
+        }
+
+        public void addPage(SettingsPage page)
+        {
+            pageToUpdate = page;
         }
         void OnButtonClicked(object sender, EventArgs args)
         {

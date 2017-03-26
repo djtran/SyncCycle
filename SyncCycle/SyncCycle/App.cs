@@ -30,41 +30,9 @@ namespace SyncCycle
         private static readonly IAdapter _bluetoothAdapter;
         public static IAdapter BluetoothAdapter { get { return _bluetoothAdapter; } }
 
-        internal RideListPage RideListPage
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
+        private static BTDeviceButton _bluetoothHandler = new BTDeviceButton();
 
-            set
-            {
-            }
-        }
-
-        internal SettingsPage SettingsPage
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
-
-        internal NavPage NavPage
-        {
-            get
-            {
-                throw new System.NotImplementedException();
-            }
-
-            set
-            {
-            }
-        }
+        public static BTDeviceButton BluetoothHandler { get { return _bluetoothHandler; } }
 
         static App()
         {
@@ -72,6 +40,8 @@ namespace SyncCycle
 
             _bluetoothAdapter.ScanTimeout = TimeSpan.FromSeconds(10);
             _bluetoothAdapter.ConnectionTimeout = TimeSpan.FromSeconds(10);
+
+            BluetoothAdapter.DeviceDiscovered += _bluetoothHandler.DeviceDiscovered;
         }
 
         public App ()
@@ -81,9 +51,13 @@ namespace SyncCycle
             var rideListContainer = new NavigationPage(new RideListPage());
             rideListContainer.Title = "Rides";
 
+            var settingspage = new SettingsPage();
+
+            _bluetoothHandler.addPage(settingspage);
+
             pages.Add(new NavPage());
             pages.Add(rideListContainer);
-            pages.Add(new SettingsPage());
+            pages.Add(settingspage);
             
             // The root page of your application
             var appContainer = new TabbedPage();
@@ -91,7 +65,7 @@ namespace SyncCycle
 
             appContainer.Children.Add(new NavPage());
             appContainer.Children.Add(rideListContainer);
-            appContainer.Children.Add(new SettingsPage());
+            appContainer.Children.Add(settingspage);
 
             MainPage = appContainer;
         }
@@ -105,13 +79,15 @@ namespace SyncCycle
 
 		protected override void OnSleep ()
 		{
-			// Handle when your app sleeps
+            // Handle when your app sleeps
+            _bluetoothHandler.toggleTimer(false);
 
 		}
 
 		protected override void OnResume ()
 		{
-			// Handle when your app resumes
+            // Handle when your app resumes
+            _bluetoothHandler.toggleTimer(true);
 		}
 	}
 }

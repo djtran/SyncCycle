@@ -1,15 +1,12 @@
-﻿using SyncCycle.DataVisuals;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
 
 namespace SyncCycle
 {
-    class SettingsPage : ContentPage
+    public class SettingsPage : ContentPage
     {
-
-        public BTDeviceButton b;
 
         StackLayout search = new StackLayout()
         {
@@ -36,17 +33,12 @@ namespace SyncCycle
             Title = "Settings";
             BackgroundColor = Color.FromRgb(48,48,48);
 
-            b = new BTDeviceButton(this);
-            App.BluetoothAdapter.DeviceDiscovered += b.DeviceDiscovered;
-
             var branding = createBranding();
 
             container.Children.Add(branding);
             container.Children.Add(searchWrap);
-            container.Children.Add(b);
 
             Content = container;
-            App.BluetoothAdapter.ScanTimeoutElapsed += timedout;
         }
 
         private View createBranding()
@@ -81,11 +73,7 @@ namespace SyncCycle
 
             return branding;
         }
-
-        private void timedout(object sender, EventArgs e)
-        {
-            updateSearchBox("Search ended.");
-        }
+        
 
         public void updateSearchBox(string words)
         {
