@@ -33,7 +33,7 @@ namespace SyncCycle
         {
             connectTimer = new Timer();
             connectTimer.Elapsed += OnButtonClicked;
-            connectTimer.Interval = 10000;
+            connectTimer.Interval = 11000;
             connectTimer.Start();
             
             //Text = "Search for BLE devices";
@@ -61,20 +61,29 @@ namespace SyncCycle
         }
         void OnButtonClicked(object sender, EventArgs args)
         {
-            // discover some devices
-            pageToUpdate.updateSearchBox("Searching...");
-
-            App.BluetoothAdapter.StartScanningForDevices();
-            foreach (IDevice each in App.BluetoothAdapter.DiscoveredDevices)
+            if(!App.BluetoothAdapter.IsScanning)
             {
-                pageToUpdate.updateSearchBox(each.Name);
-                Console.WriteLine(each.Name);
+                // discover some devices
+                pageToUpdate.updateSearchBox("Searching...");
+
+                App.BluetoothAdapter.StartScanningForDevices();
+            }
+
+            if (App.BluetoothHandler.connected == null)
+            {
+                foreach (IDevice each in DeviceList)
+                {
+                    pageToUpdate.updateSearchBox("List:" + each.Name);
+                    Console.WriteLine(each.Name);
+                }
+                DeviceList.Clear();
             }
         }
 
         public void DeviceDiscovered(object sender, BluetoothLE.Core.Events.DeviceDiscoveredEventArgs e)
         {
-            Console.WriteLine(e.Device.Name.ToLower()); 
+            Console.WriteLine(e.Device.Name.ToLower());
+            DeviceList.Add(e.Device);
             if(e.Device.Name.ToLower() == "synccycle")
             {
                 App.BluetoothAdapter.ConnectToDevice(e.Device);

@@ -38,11 +38,13 @@ namespace SyncCycle
         {
             base.OnAppearing();
 
-            var branding = createBranding();
+            if (container.Children.Count < 2)
+            {
+                var branding = createBranding();
 
-            container.Children.Add(branding);
-            container.Children.Add(searchWrap);
-
+                container.Children.Add(branding);
+                container.Children.Add(searchWrap);
+            }
             Content = container;
         }
 
