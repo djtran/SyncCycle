@@ -30,7 +30,7 @@ namespace SyncCycle
         private static readonly IAdapter _bluetoothAdapter;
         public static IAdapter BluetoothAdapter { get { return _bluetoothAdapter; } }
 
-        private static BTDeviceButton _bluetoothHandler = new BTDeviceButton();
+        private static BTDeviceButton _bluetoothHandler;
 
         public static BTDeviceButton BluetoothHandler { get { return _bluetoothHandler; } }
 
@@ -38,30 +38,24 @@ namespace SyncCycle
         {
             _bluetoothAdapter = DependencyService.Get<IAdapter>();
 
+            _bluetoothHandler = new BTDeviceButton();
+            BluetoothAdapter.DeviceDiscovered += _bluetoothHandler.DeviceDiscovered;
+
             _bluetoothAdapter.ScanTimeout = TimeSpan.FromSeconds(10);
             _bluetoothAdapter.ConnectionTimeout = TimeSpan.FromSeconds(10);
 
-            BluetoothAdapter.DeviceDiscovered += _bluetoothHandler.DeviceDiscovered;
         }
 
         public App ()
 		{
-            ArrayList pages = new ArrayList();
-
             var rideListContainer = new NavigationPage(new RideListPage());
             rideListContainer.Title = "Rides";
 
             var settingspage = new SettingsPage();
-
             _bluetoothHandler.addPage(settingspage);
-
-            pages.Add(new NavPage());
-            pages.Add(rideListContainer);
-            pages.Add(settingspage);
             
             // The root page of your application
             var appContainer = new TabbedPage();
-            appContainer.BarTextColor=(Color.Purple);
 
             appContainer.Children.Add(new NavPage());
             appContainer.Children.Add(rideListContainer);
@@ -80,14 +74,14 @@ namespace SyncCycle
 		protected override void OnSleep ()
 		{
             // Handle when your app sleeps
-            _bluetoothHandler.toggleTimer(false);
+            //_bluetoothHandler.toggleTimer(false);
 
 		}
 
 		protected override void OnResume ()
 		{
             // Handle when your app resumes
-            _bluetoothHandler.toggleTimer(true);
+            //_bluetoothHandler.toggleTimer(true);
 		}
 	}
 }

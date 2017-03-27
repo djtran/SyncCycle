@@ -7,7 +7,6 @@ using Xamarin.Forms;
 
 namespace SyncCycle
 {
-    
 
     class RideListPage : ContentPage
     {
@@ -28,11 +27,14 @@ namespace SyncCycle
 
         public RideListPage()
         {
-            NavigationPage.SetHasNavigationBar(this, false);
             BackgroundColor = Color.FromRgb(29, 17, 96);
 
             list.CollectionChanged += List_CollectionChanged;
+        }
 
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
             Button toggleRide = new Button()
             {
                 Text = "Start a new Ride",
@@ -45,19 +47,19 @@ namespace SyncCycle
             container.Children.Add(scroller);
             container.Children.Add(toggleRide);
 
-            //#Debug page stacking and navigation up and down the stack.
-            addRideListItem("12172016Ride1");
-            addRideListItem("12222016Ride1");
-            addRideListItem("01102017Ride3");
-            addRideListItem("01172017Ride4");
-            addRideListItem("01222017Ride2");
-            addRideListItem("01302017Ride4");
-            addRideListItem("01312017Ride1");
-            addRideListItem("02172017Ride4");
-            addRideListItem("02212017Ride1");
-            addRideListItem("02222017Ride2");
+            //Debug page stacking and navigation up and down the stack.
+            //addRideListItem("12172016Ride1");
+            //addRideListItem("12222016Ride1");
+            //addRideListItem("01102017Ride3");
+            //addRideListItem("01172017Ride4");
+            //addRideListItem("01222017Ride2");
+            //addRideListItem("01302017Ride4");
+            //addRideListItem("01312017Ride1");
+            //addRideListItem("02172017Ride4");
+            //addRideListItem("02212017Ride1");
+            //addRideListItem("02222017Ride2");
 
-            Content = scroller;
+            Content = container;
         }
 
         void OnRideToggle(object sender, EventArgs e)

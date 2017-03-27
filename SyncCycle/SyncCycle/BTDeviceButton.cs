@@ -74,6 +74,7 @@ namespace SyncCycle
 
         public void DeviceDiscovered(object sender, BluetoothLE.Core.Events.DeviceDiscoveredEventArgs e)
         {
+
             if(e.Device.Name.ToLower() == "synccycle")
             {
                 App.BluetoothAdapter.ConnectToDevice(e.Device);

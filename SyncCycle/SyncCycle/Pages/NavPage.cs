@@ -253,7 +253,7 @@ namespace SyncCycle
         public async void current_loc()
         {
             var locator = CrossGeolocator.Current;
-            locator.DesiredAccuracy = 50;
+            locator.DesiredAccuracy = 500;
             var temp = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
 
             p = new Position(temp.Latitude, temp.Longitude);
@@ -288,10 +288,6 @@ namespace SyncCycle
             Pins();
         }
 
-        async Task checkBluetoothOn()
-        {
-
-        }
 
         async Task checkPerms()
         {

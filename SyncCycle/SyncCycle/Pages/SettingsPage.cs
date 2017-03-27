@@ -32,6 +32,11 @@ namespace SyncCycle
 
             Title = "Settings";
             BackgroundColor = Color.FromRgb(48,48,48);
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
 
             var branding = createBranding();
 
