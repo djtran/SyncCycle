@@ -33,7 +33,7 @@ namespace SyncCycle
         {
             connectTimer = new Timer();
             connectTimer.Elapsed += OnButtonClicked;
-            connectTimer.Interval = 2000;
+            connectTimer.Interval = 10000;
             connectTimer.Start();
             
             //Text = "Search for BLE devices";
@@ -65,7 +65,7 @@ namespace SyncCycle
             pageToUpdate.updateSearchBox("Searching...");
 
             App.BluetoothAdapter.StartScanningForDevices();
-            foreach (IDevice each in App.BluetoothAdapter.ConnectedDevices)
+            foreach (IDevice each in App.BluetoothAdapter.DiscoveredDevices)
             {
                 pageToUpdate.updateSearchBox(each.Name);
                 Console.WriteLine(each.Name);
@@ -74,7 +74,7 @@ namespace SyncCycle
 
         public void DeviceDiscovered(object sender, BluetoothLE.Core.Events.DeviceDiscoveredEventArgs e)
         {
-
+            Console.WriteLine(e.Device.Name.ToLower()); 
             if(e.Device.Name.ToLower() == "synccycle")
             {
                 App.BluetoothAdapter.ConnectToDevice(e.Device);

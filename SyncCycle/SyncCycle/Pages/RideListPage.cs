@@ -25,47 +25,61 @@ namespace SyncCycle
             Spacing = 5
         };
 
+        Button toggleRide = new Button()
+        {
+            Text = "Start a new Ride",
+            HorizontalOptions = LayoutOptions.FillAndExpand,
+            VerticalOptions = LayoutOptions.End,
+            HeightRequest = 200,
+        };
+
         public RideListPage()
         {
+            NavigationPage.SetHasNavigationBar(this, false);
             BackgroundColor = Color.FromRgb(29, 17, 96);
 
             list.CollectionChanged += List_CollectionChanged;
+            container.Children.Add(scroller);
+
+            toggleRide.Clicked += OnRideToggle;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            Button toggleRide = new Button()
+
+            if (App.BluetoothAdapter.ConnectedDevices.ToString().ToLowerInvariant().Contains("synccycle") && container.Children.Count < 2)
             {
-                Text = "Start a new Ride",
-                HorizontalOptions = LayoutOptions.FillAndExpand,
-                VerticalOptions = LayoutOptions.End,
-                HeightRequest = 20,
-            };
-            toggleRide.Clicked += OnRideToggle;
+                container.Children.Add(toggleRide);
+            }
+            else
+            {
+                if(container.Children.Count > 1)
+                {
+                    container.Children.RemoveAt(1);
+                }
+            }
 
-            container.Children.Add(scroller);
-            container.Children.Add(toggleRide);
+                //Debug page stacking and navigation up and down the stack.
+                //addRideListItem("12172016Ride1");
+                //addRideListItem("12222016Ride1");
+                //addRideListItem("01102017Ride3");
+                //addRideListItem("01172017Ride4");
+                //addRideListItem("01222017Ride2");
+                //addRideListItem("01302017Ride4");
+                //addRideListItem("01312017Ride1");
+                //addRideListItem("02172017Ride4");
+                //addRideListItem("02212017Ride1");
+                //addRideListItem("02222017Ride2");
 
-            //Debug page stacking and navigation up and down the stack.
-            //addRideListItem("12172016Ride1");
-            //addRideListItem("12222016Ride1");
-            //addRideListItem("01102017Ride3");
-            //addRideListItem("01172017Ride4");
-            //addRideListItem("01222017Ride2");
-            //addRideListItem("01302017Ride4");
-            //addRideListItem("01312017Ride1");
-            //addRideListItem("02172017Ride4");
-            //addRideListItem("02212017Ride1");
-            //addRideListItem("02222017Ride2");
-
-            Content = container;
+                Content = container;
+            
         }
 
         void OnRideToggle(object sender, EventArgs e)
         {
             var butt = (Button)sender;
-            if(butt.Text.Contains("Start"))
+            if (butt.Text.Contains("Start"))
             {
                 string req = "startRide";
                 byte[] data = Encoding.ASCII.GetBytes(req);
@@ -82,14 +96,14 @@ namespace SyncCycle
                 byte[] data = Encoding.ASCII.GetBytes(req);
 
                 App.BluetoothHandler.writeReq.Write(data);
-    
+
                 butt.Text = "Start a new ride";
             }
         }
-       
+
         private void List_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            foreach(View la in e.NewItems)
+            foreach (View la in e.NewItems)
             {
                 container.Children.Insert(0, la);
             }
@@ -123,7 +137,7 @@ namespace SyncCycle
 
             var frame = new ContentView()
             {
-                BackgroundColor = Color.FromRgb(0,121,193),
+                BackgroundColor = Color.FromRgb(0, 121, 193),
                 Padding = 15,
                 Content = item,
                 //OutlineColor = Color.Black,
