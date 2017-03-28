@@ -43,7 +43,7 @@ namespace SyncCycle
             initDataPlot(sensor2);
             initDataPlot(sensor3);
 
-            if(rideID != "")
+            if(rideID != "" && App.BluetoothHandler.connected != null)
             {
                 App.BluetoothHandler.readRide.Read();
                 if(rideID.ToUpper() == App.BluetoothHandler.readRide.StringValue.ToUpper())

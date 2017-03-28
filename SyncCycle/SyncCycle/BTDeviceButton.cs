@@ -15,7 +15,7 @@ namespace SyncCycle
     {
         public List<string> DeviceNames = new List<string>();
         public List<IDevice> DeviceList = new List<IDevice>();
-        IDevice connected = null;
+        public IDevice connected = null;
         public IService service = null;
 
         public ICharacteristic writeReq;
@@ -23,7 +23,7 @@ namespace SyncCycle
         public ICharacteristic readRide;
         public ICharacteristic subscribe;
 
-        Guid serviceID = new Guid("28545278768c471993afc529485f9ab0");
+        Guid serviceID = ("12ab").ToGuid();
 
         public SettingsPage pageToUpdate;
 
@@ -33,7 +33,7 @@ namespace SyncCycle
         {
             connectTimer = new Timer();
             connectTimer.Elapsed += OnButtonClicked;
-            connectTimer.Interval = 11000;
+            connectTimer.Interval = 10000;
             connectTimer.Start();
             
             //Text = "Search for BLE devices";
@@ -41,18 +41,6 @@ namespace SyncCycle
             //BackgroundColor = Color.FromRgb(192, 192, 192);
             //TextColor = Color.FromRgb(24,24,24);
             //Margin = 20;
-        }
-
-        public void toggleTimer(bool on)
-        {
-            if(on)
-            {
-                connectTimer.Start();
-            }
-            else
-            {
-                connectTimer.Stop();
-            }
         }
 
         public void addPage(SettingsPage page)
@@ -69,18 +57,18 @@ namespace SyncCycle
                 App.BluetoothAdapter.StartScanningForDevices();
             }
 
-            if (App.BluetoothHandler.connected == null)
-            {
-                foreach (IDevice each in DeviceList)
-                {
-                    pageToUpdate.updateSearchBox("List:" + each.Name);
-                    Console.WriteLine(each.Name);
-                }
-                DeviceList.Clear();
-            }
+            //if (App.BluetoothHandler.connected == null)
+            //{
+            //    foreach (IDevice each in DeviceList)
+            //    {
+            //        pageToUpdate.updateSearchBox("List:" + each.Name);
+            //        Console.WriteLine(each.Name);
+            //    }
+            //    DeviceList.Clear();
+            //}
         }
 
-        public void DeviceDiscovered(object sender, BluetoothLE.Core.Events.DeviceDiscoveredEventArgs e)
+        public void DeviceDiscovered(object sender, DeviceDiscoveredEventArgs e)
         {
             Console.WriteLine(e.Device.Name.ToLower());
             DeviceList.Add(e.Device);
@@ -89,6 +77,8 @@ namespace SyncCycle
                 App.BluetoothAdapter.ConnectToDevice(e.Device);
                 App.BluetoothAdapter.DeviceConnected += connectSuccess;
                 App.BluetoothAdapter.DeviceFailedToConnect += connectFail;
+                App.BluetoothAdapter.StopScanningForDevices();
+                connectTimer.Dispose();
             }
         }
 
@@ -100,17 +90,32 @@ namespace SyncCycle
                 pageToUpdate.DisplayAlert("Failed!", "Failed to connect to " + e.Device.Name + " with error message : " + e.ErrorMessage, "Aw man :<");
                 connected = null;
                 pageToUpdate.updateSearchBox("Failed to connect");
+                App.BluetoothAdapter.StartScanningForDevices();
             });
         }
 
         private void connectSuccess(object sender, DeviceConnectionEventArgs e)
         {
             connected = e.Device;
+            App.BluetoothAdapter.DeviceDisconnected += DeviceOnDisconnect;
             e.Device.ServiceDiscovered += DeviceOnServiceDiscovered;
             e.Device.DiscoverServices();
             pageToUpdate.updateSearchBox("Connected to " + e.Device.Name);
+        }
 
-            connectTimer.Stop();
+        private void DeviceOnDisconnect(object sender, DeviceConnectionEventArgs e)
+        {
+            if(subscribe != null)
+            {
+                subscribe.StopUpdates();
+            }
+            connected = null;
+            service = null;
+            writeReq = null;
+            writeLoc = null;
+            readRide = null;
+            subscribe = null;
+            App.BluetoothAdapter.StartScanningForDevices();
 
         }
 
@@ -119,7 +124,7 @@ namespace SyncCycle
             if(e.Service.Id == serviceID)
             {
                 service = e.Service;
-
+                
                 service.CharacteristicDiscovered += saveCharacteristic;
                 service.DiscoverCharacteristics();
             }
@@ -133,25 +138,25 @@ namespace SyncCycle
             switch(e.Characteristic.Uuid.ToLower())
             {
                 //Write Request
-                case "28545278768c471993afc5294aaaaaa0":
+                case "28545278-768c-4719-93af-c5294aaaaaa0":
                     writeReq = e.Characteristic;
                     pageToUpdate.updateSearchBox("Write Request Characteristic saved");
                     break;
                 
                 //Write Location
-                case "28545278768c471993afc5294aaaaaa2":
+                case "28545278-768c-4719-93af-c5294aaaaaa2":
                     writeLoc = e.Characteristic;
                     pageToUpdate.updateSearchBox("Write Location Characteristic saved");
                     break;
                 
                 //Read Current Ride
-                case "28545278768c471993afc5294bbbbbb0":
+                case "28545278-768c-4719-93af-c5294bbbbbb0":
                     readRide = e.Characteristic;
                     pageToUpdate.updateSearchBox("Read Ride Characteristic saved");
                     break;
                 
                 //Subscribe to Data feed
-                case "28545278768c471993afc5294cccccc0":
+                case "28545278-768c-4719-93af-c5294cccccc0":
                     subscribe = e.Characteristic;
                     pageToUpdate.updateSearchBox("Subscribe Characteristic saved");
                     break;

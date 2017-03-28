@@ -75,6 +75,10 @@ namespace SyncCycle
 		{
             // Handle when your app sleeps
             //_bluetoothHandler.toggleTimer(false);
+            if(App.BluetoothHandler.connected != null)
+            {
+                App.BluetoothHandler.connected.Disconnect();
+            }
 
 		}
 

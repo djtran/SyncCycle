@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Timers;
 
 using Xamarin.Forms;
 
@@ -33,6 +34,8 @@ namespace SyncCycle
             HeightRequest = 200,
         };
 
+        Timer readTimer;
+
         public RideListPage()
         {
             NavigationPage.SetHasNavigationBar(this, false);
@@ -48,13 +51,13 @@ namespace SyncCycle
         {
             base.OnAppearing();
 
-            if (App.BluetoothAdapter.ConnectedDevices.ToString().ToLowerInvariant().Contains("synccycle") && container.Children.Count < 2)
+            if (App.BluetoothHandler.writeReq != null && container.Children.Count < 2)
             {
                 container.Children.Add(toggleRide);
             }
             else
             {
-                if(container.Children.Count > 1)
+                if(container.Children.Count > 1 && App.BluetoothHandler.connected == null)
                 {
                     container.Children.RemoveAt(1);
                 }
@@ -63,17 +66,8 @@ namespace SyncCycle
                 //Debug page stacking and navigation up and down the stack.
                 //addRideListItem("12172016Ride1");
                 //addRideListItem("12222016Ride1");
-                //addRideListItem("01102017Ride3");
-                //addRideListItem("01172017Ride4");
-                //addRideListItem("01222017Ride2");
-                //addRideListItem("01302017Ride4");
-                //addRideListItem("01312017Ride1");
-                //addRideListItem("02172017Ride4");
-                //addRideListItem("02212017Ride1");
-                //addRideListItem("02222017Ride2");
 
-                Content = container;
-            
+                Content = container;   
         }
 
         void OnRideToggle(object sender, EventArgs e)
@@ -83,9 +77,14 @@ namespace SyncCycle
             {
                 string req = "startRide";
                 byte[] data = Encoding.ASCII.GetBytes(req);
-
                 App.BluetoothHandler.writeReq.Write(data);
+                App.BluetoothHandler.writeLoc.Write(data);
+                Console.WriteLine("Writing data");
 
+
+                readTimer = new Timer(200);
+                readTimer.Elapsed += readTimerCallback;
+                readTimer.Start();
 
                 butt.Text = "End current ride";
 
@@ -99,6 +98,16 @@ namespace SyncCycle
 
                 butt.Text = "Start a new ride";
             }
+        }
+
+        private void readTimerCallback(object sender, ElapsedEventArgs args){
+
+            readTimer.Dispose();
+            readTimer = null;
+            App.BluetoothHandler.readRide.Read();
+            Console.WriteLine("Read data : " + App.BluetoothHandler.readRide.StringValue);
+            addRideListItem(App.BluetoothHandler.readRide.StringValue);
+
         }
 
         private void List_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
