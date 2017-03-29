@@ -10,6 +10,7 @@ using System.Collections;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Plugin.Geolocator;
+using Akavache;
 
 namespace SyncCycle
 {
@@ -29,7 +30,6 @@ namespace SyncCycle
 	{
         private static readonly IAdapter _bluetoothAdapter;
         public static IAdapter BluetoothAdapter { get { return _bluetoothAdapter; } }
-
         private static BTDeviceButton _bluetoothHandler;
 
         public static BTDeviceButton BluetoothHandler { get { return _bluetoothHandler; } }
@@ -41,13 +41,18 @@ namespace SyncCycle
             _bluetoothHandler = new BTDeviceButton();
             BluetoothAdapter.DeviceDiscovered += _bluetoothHandler.DeviceDiscovered;
 
-            _bluetoothAdapter.ScanTimeout = TimeSpan.FromSeconds(10);
-            _bluetoothAdapter.ConnectionTimeout = TimeSpan.FromSeconds(10);
+            _bluetoothAdapter.ScanTimeout = TimeSpan.FromSeconds(3);
+            _bluetoothAdapter.ConnectionTimeout = TimeSpan.FromSeconds(3);
+
 
         }
 
         public App ()
-		{
+        {
+            BlobCache.ApplicationName = "SyncCycle";
+            BlobCache.EnsureInitialized();
+            
+
             var rideListContainer = new NavigationPage(new RideListPage());
             rideListContainer.Title = "Rides";
 
@@ -75,6 +80,8 @@ namespace SyncCycle
 		{
             // Handle when your app sleeps
             //_bluetoothHandler.toggleTimer(false);
+            BlobCache.Shutdown().Wait();
+
             if(App.BluetoothHandler.connected != null)
             {
                 App.BluetoothHandler.connected.Disconnect();

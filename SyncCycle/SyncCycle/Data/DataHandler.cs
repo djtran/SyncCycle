@@ -52,36 +52,6 @@ namespace SyncCycle
                     App.BluetoothHandler.subscribe.ValueUpdated += subscribeDataBuffer;
                 }
             }
-            else
-            {
-                askForID();
-            }
-        }
-
-        public bool askForID()
-        {
-            DateTime date = DateTime.Today;
-
-            //TO DO
-            //send request over bluetooth to get an ID
-            //bluetooth should respond at some point pls.
-
-            //asynchronously populate the ID?
-
-            return true;
-        }
-
-        public bool getRideFromID(string ID)
-        {
-            //TO DO
-            //send request over bluetooth to get ride by ID
-            //bluetooth should return with json objects
-            //**Maybe we should just pull stat objects, and the graph objects can be a separate pull
-
-            //create EnergyData, GreenData, and KinematicsData from json objects
-
-            //true = success, false = failed somewhere along the way
-            return true;
         }
 
         private void initAxes(PlotModel model)

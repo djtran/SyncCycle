@@ -7,6 +7,7 @@ using System.Collections;
 using Xamarin.Forms;
 using OxyPlot.Xamarin.Forms;
 using System.ComponentModel;
+using Akavache;
 
 namespace SyncCycle
 {
@@ -14,6 +15,7 @@ namespace SyncCycle
     {      
         
         public DataHandler data;
+        public string id;
 
         //private PlotView plot;
 
@@ -30,9 +32,15 @@ namespace SyncCycle
             Title = "Data";
             BackgroundColor = Color.FromRgb(29,17,96);
             Padding = 10;
- 
-            data = new DataHandler(rideID);
 
+            BlobCache.LocalMachine.GetObject<DataHandler>(rideID).Subscribe(x => data = x, ex => data = new DataHandler(rideID));
+
+
+            id = rideID;
+            if(data == null)
+            {
+                data = new DataHandler(rideID);
+            }
             //Create data views
             createTable();
 
@@ -71,6 +79,12 @@ namespace SyncCycle
             //data.receiveData(6, 5, DataHandler.Sensor.speedometer);
             //data.receiveData(7, 2, DataHandler.Sensor.speedometer);
             //plot.Model.InvalidatePlot(true);
+        }
+
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            BlobCache.LocalMachine.InsertObject<DataHandler>(id, data);
         }
 
         internal DataViewCell DataViewCell

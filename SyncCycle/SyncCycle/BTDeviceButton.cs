@@ -33,7 +33,7 @@ namespace SyncCycle
         {
             connectTimer = new Timer();
             connectTimer.Elapsed += OnButtonClicked;
-            connectTimer.Interval = 10000;
+            connectTimer.Interval = 3000;
             connectTimer.Start();
             
             //Text = "Search for BLE devices";
@@ -115,20 +115,23 @@ namespace SyncCycle
             writeLoc = null;
             readRide = null;
             subscribe = null;
-            App.BluetoothAdapter.StartScanningForDevices();
-
+            if(!App.BluetoothAdapter.IsScanning)
+            {
+                App.BluetoothAdapter.StartScanningForDevices();
+            }
         }
 
         private void DeviceOnServiceDiscovered(object sender, ServiceDiscoveredEventArgs e)
         {
-            if(e.Service.Id == serviceID)
+            if(e.Service.Id == serviceID && service == null)
             {
                 service = e.Service;
                 
                 service.CharacteristicDiscovered += saveCharacteristic;
                 service.DiscoverCharacteristics();
+
+                Console.WriteLine("Service ID Discovered: " + e.Service.Id + "Is Primary? : " + e.Service.IsPrimary);
             }
-            Console.WriteLine("Service ID Discovered: " + e.Service.Id + "Is Primary? : " + e.Service.IsPrimary);
         }
 
         private void saveCharacteristic(object sender, CharacteristicDiscoveredEventArgs e)
