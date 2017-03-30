@@ -238,6 +238,22 @@ namespace SyncCycle
                 Label = "Price Rite",
                 Address = "542 Southbridge St, Worcester, MA 01610"
             };
+
+            var dummypin = new Pin()
+            {
+                Position = new Position(42.348773, -71.097516),
+                Label = "Dummy Pin: Kenmore Square",
+                Address = "Boston MA 02215",
+                Type = PinType.Generic
+            };
+
+            var currentPin = new Pin() {
+                   
+                    Position = new Position (p.Latitude, p.Longitude),
+                    Label = "Current Position",
+                    Type = PinType.Place
+            };
+
             map.Pins.Add(pin1);
             map.Pins.Add(pin2);
             map.Pins.Add(pin3);
@@ -264,6 +280,8 @@ namespace SyncCycle
             map.Pins.Add(pin24);
             map.Pins.Add(pin25);
             map.Pins.Add(pin26);
+            map.Pins.Add(dummypin);
+            map.Pins.Add(currentPin);
         } //We add all the pins for the locations that we determined to be hotpots manually in this method, which is then called in the OnAppearing method. The pins are added uses a skeleton code.
                                //Considering custom pins to differentiate between restaraunts and coffee shops etc.
 
@@ -274,7 +292,6 @@ namespace SyncCycle
             var temp = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
 
             p = new Position(temp.Latitude, temp.Longitude);
-            Console.WriteLine("THIS IS THE POSTION: (" + p + ")");
             map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(p.Latitude, p.Longitude), Distance.FromMiles(0.3)));
 
         }
@@ -301,7 +318,7 @@ namespace SyncCycle
         {
             base.OnAppearing();
             checkPerms();
-            //current_loc();
+            current_loc();
             Pins();
         }
 

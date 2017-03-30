@@ -8,6 +8,16 @@ namespace SyncCycle
     public class SettingsPage : ContentPage
     {
 
+        void OnemergencyContactClicked(object sender, EventArgs e)
+        {
+            Device.OpenUri(new Uri("tel://911"));
+        }
+
+        void OncontactHubClicked(object sender, EventArgs e)
+        {
+            Device.OpenUri(new Uri("tel://7742397587"));
+        }
+
         StackLayout search = new StackLayout()
         {
             VerticalOptions = LayoutOptions.End,
@@ -30,22 +40,41 @@ namespace SyncCycle
         public SettingsPage()
         {
 
-            Title = "Settings";
+            Title = "Contact Us";
             BackgroundColor = Color.FromRgb(48,48,48);
+           
+
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
 
-            if (container.Children.Count < 2)
+            if (container.Children.Count < 4)
             {
+                Button emergencyContact = new Button
+                {
+                    Text = "Emergency Contact",
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                emergencyContact.Clicked += OnemergencyContactClicked;
+
+                Button contactHub = new Button
+                {
+                    Text = "Contact Sustainability Hub",
+                    HorizontalOptions = LayoutOptions.Center
+                };
+                contactHub.Clicked += OncontactHubClicked;
+                
                 var branding = createBranding();
 
                 container.Children.Add(branding);
                 container.Children.Add(searchWrap);
+                container.Children.Add(emergencyContact);
+                container.Children.Add(contactHub);
             }
             Content = container;
+           
         }
 
         private View createBranding()
