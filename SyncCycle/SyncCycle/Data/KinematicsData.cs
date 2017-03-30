@@ -84,19 +84,19 @@ namespace SyncCycle
             {
                 case kData.vAvg:
                     vAvg = value;
-                    Display1 = "Average Speed : " + vAvg;
+                    Display1 = "Average Speed : " + vAvg + " mph";
                     break;
                 case kData.vTop:
                     vTop = value;
-                    Display2 = "Top Speed : " + vTop;
+                    Display2 = "Top Speed : " + vTop + " mph";
                     break;
                 case kData.dTraveled:
                     dTraveled = value;
-                    Display3 = "Distance Traveled : " + dTraveled;
+                    Display3 = "Distance Traveled : " + dTraveled + " miles";
                     break;
                 case kData.tElapsed:
                     tElapsed = value;
-                    Display4 = "Duration of Trip : " + tElapsed;
+                    Display4 = "Duration of Trip : " + tElapsed + " hours";
                     break;
 
             }

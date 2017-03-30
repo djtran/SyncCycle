@@ -132,17 +132,20 @@ namespace SyncCycle
         {
             Console.WriteLine();
             Console.WriteLine("Read Value updated");
-            string ride = App.BluetoothHandler.readRide.StringValue;
+            string ride = e.Characteristic.StringValue;
 
-            foreach(byte b in App.BluetoothHandler.readRide.Value)
+            foreach(byte b in e.Characteristic.Value)
             {
                 Console.WriteLine(b.GetHashCode());
             }
 
             if(ride != "" && ride != null)
             {
-                readTimer.Dispose();
-                readTimer = null;
+                if(readTimer != null)
+                {
+                    readTimer.Dispose();
+                    readTimer = null;
+                }
                 addRideListItem(ride);
             }
         }

@@ -101,6 +101,27 @@ namespace SyncCycle
             e.Device.ServiceDiscovered += DeviceOnServiceDiscovered;
             e.Device.DiscoverServices();
             pageToUpdate.updateSearchBox("Connected to " + e.Device.Name);
+
+            connectTimer = new Timer(500);
+            connectTimer.Elapsed += ensureCharacteristics;
+            connectTimer.Start();
+
+        }
+
+        private void ensureCharacteristics(object sender, ElapsedEventArgs e)
+        {
+            if(writeLoc == null || writeReq == null || readRide == null || subscribe == null)
+            {
+                connected.DiscoverServices();
+            }
+            else
+            {
+                if(connectTimer != null)
+                {
+                    connectTimer.Stop();
+                    connectTimer = null;
+                }
+            }
         }
 
         private void DeviceOnDisconnect(object sender, DeviceConnectionEventArgs e)
@@ -131,6 +152,8 @@ namespace SyncCycle
                 service.DiscoverCharacteristics();
 
                 Console.WriteLine("Service ID Discovered: " + e.Service.Id + "Is Primary? : " + e.Service.IsPrimary);
+
+
             }
         }
 
@@ -142,26 +165,38 @@ namespace SyncCycle
             {
                 //Write Request
                 case "28545278-768c-4719-93af-c5294aaaaaa0":
-                    writeReq = e.Characteristic;
-                    pageToUpdate.updateSearchBox("Write Request Characteristic saved");
+                    if(writeReq == null)
+                    {
+                        writeReq = e.Characteristic;
+                        pageToUpdate.updateSearchBox("Write Request Characteristic saved");
+                    }
                     break;
                 
                 //Write Location
                 case "28545278-768c-4719-93af-c5294aaaaaa2":
-                    writeLoc = e.Characteristic;
-                    pageToUpdate.updateSearchBox("Write Location Characteristic saved");
+                    if(writeLoc == null)
+                    {
+                        writeLoc = e.Characteristic;
+                        pageToUpdate.updateSearchBox("Write Location Characteristic saved");
+                    }
                     break;
                 
                 //Read Current Ride
                 case "28545278-768c-4719-93af-c5294bbbbbb0":
-                    readRide = e.Characteristic;
-                    pageToUpdate.updateSearchBox("Read Ride Characteristic saved");
+                    if(readRide == null)
+                    {
+                        readRide = e.Characteristic;
+                        pageToUpdate.updateSearchBox("Read Ride Characteristic saved");
+                    }
                     break;
                 
                 //Subscribe to Data feed
-                case "28545278-768c-4719-93af-c5294cccccc0":
-                    subscribe = e.Characteristic;
-                    pageToUpdate.updateSearchBox("Subscribe Characteristic saved");
+                case "28545278-768c-4719-93af-c5294cccccc4":
+                    if(subscribe == null)
+                    {
+                        subscribe = e.Characteristic;
+                        pageToUpdate.updateSearchBox("Subscribe Characteristic saved");
+                    }
                     break;
 
                 default:

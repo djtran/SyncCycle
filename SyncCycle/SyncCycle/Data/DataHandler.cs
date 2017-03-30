@@ -15,7 +15,7 @@ namespace SyncCycle
     class DataHandler
     {
         //One DataHandler per ride
-        string rideID;
+        public string rideID;
 
         //Creating graphs and the like
         PlotModel speedometer = new PlotModel { Title = "Speedometer" };
@@ -43,15 +43,8 @@ namespace SyncCycle
             initDataPlot(sensor2);
             initDataPlot(sensor3);
 
-            if(rideID != "" && App.BluetoothHandler.connected != null)
-            {
-                App.BluetoothHandler.readRide.Read();
-                if(rideID.ToUpper() == App.BluetoothHandler.readRide.StringValue.ToUpper())
-                {
-                    App.BluetoothHandler.subscribe.StartUpdates();
-                    App.BluetoothHandler.subscribe.ValueUpdated += subscribeDataBuffer;
-                }
-            }
+            this.rideID = rideID;
+
         }
 
         private void initAxes(PlotModel model)
@@ -117,39 +110,46 @@ namespace SyncCycle
             return list;
         }
 
-        public void subscribeDataBuffer(object sender, CharacteristicReadEventArgs args)
+        public void subscribeDataBuffer(string received)
         {
-            string[] halves = args.Characteristic.StringValue.Split(':');
-            float val = float.Parse(halves[1]);
-            
-            switch(halves[0])
+            string[] halves = received.Split(':');
+            try
             {
-                case "energyUsed":
-                    energy.update(eData.Used, val);
-                    break;
-                case "energyEquiv":
-                    energy.update(eData.Equiv, val);
-                    break;
-                case "energySav":
-                    energy.update(eData.Save, val);
-                    break;
-                case "carbonEm":
-                    green.update(co2Data.Prevented, val);
-                    break;
-                case "speedAvg":
-                    kinematics.update(kData.vAvg, val);
-                    break;
-                case "speedTop":
-                    kinematics.update(kData.vTop, val);
-                    break;
-                case "distanceTra":
-                    kinematics.update(kData.dTraveled, val);
-                    break;
-                case "timeEla":
-                    kinematics.update(kData.tElapsed, val);
-                    break;
-                default:
-                    break;
+                float val = float.Parse(halves[1]);
+
+                switch(halves[0])
+                {
+                    case "energyUsed":
+                        energy.update(eData.Used, val);
+                        break;
+                    case "energyEquiv":
+                        energy.update(eData.Equiv, val);
+                        break;
+                    case "energySav":
+                        energy.update(eData.Save, val);
+                        break;
+                    case "carbonEm":
+                        green.update(co2Data.Prevented, val);
+                        break;
+                    case "speedAvg":
+                        kinematics.update(kData.vAvg, val);
+                        break;
+                    case "speedTop":
+                        kinematics.update(kData.vTop, val);
+                        break;
+                    case "distanceTra":
+                        kinematics.update(kData.dTraveled, val);
+                        break;
+                    case "timeEla":
+                        kinematics.update(kData.tElapsed, val);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            catch (FormatException f)
+            {
+                Console.WriteLine("woops");
             }
 
         }
