@@ -29,7 +29,6 @@ namespace SyncCycle.Droid
 			global::BluetoothLE.Droid.Resource.String.library_name = global::SyncCycle.Droid.Resource.String.library_name;
 			global::PCLStorage.Resource.String.ApplicationName = global::SyncCycle.Droid.Resource.String.ApplicationName;
 			global::PCLStorage.Resource.String.Hello = global::SyncCycle.Droid.Resource.String.Hello;
-			global::Splat.Resource.String.library_name = global::SyncCycle.Droid.Resource.String.library_name;
 			global::Xamarin.Forms.Platform.Android.Resource.Attribute.actionBarSize = global::SyncCycle.Droid.Resource.Attribute.actionBarSize;
 		}
 		
@@ -3248,11 +3247,11 @@ namespace SyncCycle.Droid
 		public partial class String
 		{
 			
-			// aapt resource value: 0x7f070047
-			public const int ApplicationName = 2131165255;
-			
 			// aapt resource value: 0x7f070046
-			public const int Hello = 2131165254;
+			public const int ApplicationName = 2131165254;
+			
+			// aapt resource value: 0x7f070045
+			public const int Hello = 2131165253;
 			
 			// aapt resource value: 0x7f07002e
 			public const int abc_action_bar_home_description = 2131165230;
@@ -3413,8 +3412,8 @@ namespace SyncCycle.Droid
 			// aapt resource value: 0x7f07001e
 			public const int common_signin_button_text_long = 2131165214;
 			
-			// aapt resource value: 0x7f070045
-			public const int library_name = 2131165253;
+			// aapt resource value: 0x7f070047
+			public const int library_name = 2131165255;
 			
 			// aapt resource value: 0x7f07001f
 			public const int mr_button_content_description = 2131165215;
