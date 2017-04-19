@@ -18,7 +18,6 @@ namespace SyncCycle.Droid
 		{
 			base.OnCreate (bundle);
 
-            Xamarin.Forms.DependencyService.Register<BluetoothLE.Core.IAdapter, BluetoothLE.Droid.Adapter>();
             global::Xamarin.Forms.Forms.Init (this, bundle);
             OxyPlot.Xamarin.Forms.Platform.Android.PlotViewRenderer.Init();
             global::Xamarin.Forms.Forms.Init(this, bundle);
@@ -26,10 +25,10 @@ namespace SyncCycle.Droid
 
             LoadApplication (new SyncCycle.App ());
 		}
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
-        {
-            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
+        //public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
+        //{
+        //    PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        //}
     }
 }
 

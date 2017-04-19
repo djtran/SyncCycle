@@ -7,7 +7,6 @@ using System.Collections;
 using Xamarin.Forms;
 using OxyPlot.Xamarin.Forms;
 using System.ComponentModel;
-using Akavache;
 using System.Timers;
 
 namespace SyncCycle
@@ -17,9 +16,6 @@ namespace SyncCycle
         
         public DataHandler data;
         public string id;
-        Timer checkRide;
-        Timer subscribeTimer;
-        //private PlotView plot;
 
         StackLayout container = new StackLayout()
         {
@@ -34,8 +30,6 @@ namespace SyncCycle
             Title = "Data";
             BackgroundColor = Color.FromRgb(29,17,96);
             Padding = 10;
-
-            //BlobCache.LocalMachine.GetObject<DataHandler>(rideID).Subscribe(x => data = x, ex => data = new DataHandler(rideID));
             
             id = rideID;
             if(data == null)
@@ -44,12 +38,6 @@ namespace SyncCycle
             }
             //Create data views
             createTable();
-
-            var debugButton = new Button()
-            {
-                Text = "'Receive' some dummy data",
-            };
-            debugButton.Clicked += debugData;
 
             var returnButton = new Button()
             {
@@ -62,13 +50,8 @@ namespace SyncCycle
 
             //plot = data.getPlot(DataHandler.Sensor.speedometer);
 
-
-
-            container.Children.Add(debugButton);
             container.Children.Add(returnButton);
             //container.Children.Add(plot);
-            
-
             Content = container;
 
             //whenever you change data, remember to invalidate.
@@ -85,76 +68,25 @@ namespace SyncCycle
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            BlobCache.LocalMachine.InsertObject<DataHandler>(id, data);
-            if(checkRide != null)
-            {
-                checkRide.Stop();
-                checkRide = null;
-
-                App.BluetoothHandler.readRide.ValueUpdated -= ReadRide_ValueUpdated;
+            if(App.BluetoothHandler.connected != null)
+            {                
                 App.BluetoothHandler.subscribe.ValueUpdated -= Subscribe_ValueUpdated;
-            }
-            if(subscribeTimer != null)
-            {
-                subscribeTimer.Stop();
-                subscribeTimer = null;
             }
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             if(App.BluetoothHandler.connected != null)
             {
-                checkRide = new Timer(200);
-                checkRide.Elapsed += checkCurrentRide;
-                checkRide.Enabled = true;
-            }
-        }
-
-        void checkCurrentRide(object sender, ElapsedEventArgs args)
-        {
-            App.BluetoothHandler.readRide.Read();
-            App.BluetoothHandler.readRide.ValueUpdated += ReadRide_ValueUpdated;
-        }
-
-        private void ReadRide_ValueUpdated(object sender, BluetoothLE.Core.Events.CharacteristicReadEventArgs e)
-        {
-            Console.WriteLine("DataPage ReadRide updated");
-            Console.WriteLine("Comparing " + e.Characteristic.StringValue.ToUpperInvariant() + " and " + data.rideID.ToUpperInvariant());
-            if(data.rideID.ToUpperInvariant() == e.Characteristic.StringValue.ToUpperInvariant())
-            {
-                if(checkRide != null)
-                {
-                    checkRide.Stop();
-                    checkRide = null;
-                }
-                Console.WriteLine("Instantiating the subscribe timer");
-                subscribeTimer = new Timer(1000);
-                subscribeTimer.Elapsed += checkSubscribe;
-                subscribeTimer.Start();
-                subscribeTimer.Enabled = true;
                 App.BluetoothHandler.subscribe.ValueUpdated += Subscribe_ValueUpdated;
 
-                Console.WriteLine(subscribeTimer.ToString() + " " + subscribeTimer.Enabled);
+                await App.BluetoothHandler.subscribe.StartUpdatesAsync();
+
             }
         }
-
-        private void checkSubscribe(object sender, ElapsedEventArgs e)
-        {
-            App.BluetoothHandler.subscribe.ValueUpdated += Subscribe_ValueUpdated;
-            App.BluetoothHandler.subscribe.Read();
-            App.BluetoothHandler.subscribe.Read();
-            App.BluetoothHandler.subscribe.Read();
-            App.BluetoothHandler.subscribe.Read();
-            App.BluetoothHandler.subscribe.Read();
-            App.BluetoothHandler.subscribe.Read();
-            App.BluetoothHandler.subscribe.Read();
-            App.BluetoothHandler.subscribe.Read();
-            Console.WriteLine("Checking subscribe characteristic!");
-        }
-
-        private void Subscribe_ValueUpdated(object sender, BluetoothLE.Core.Events.CharacteristicReadEventArgs e)
+        
+        private void Subscribe_ValueUpdated(object sender, Plugin.BLE.Abstractions.EventArgs.CharacteristicUpdatedEventArgs e)
         {
             Console.WriteLine("Subscribe ValueUpdated! " + e.Characteristic.StringValue);
             if (e.Characteristic.StringValue != null && e.Characteristic.StringValue != "")
@@ -162,6 +94,7 @@ namespace SyncCycle
                 data.subscribeDataBuffer(e.Characteristic.StringValue);
             }
         }
+
 
         private void createTable()
         {
@@ -199,15 +132,6 @@ namespace SyncCycle
             container.Children.Add(tableFrame);
         }
 
-
-
-        private void debugData(object sender, EventArgs args)
-        {
-            Console.WriteLine(subscribeTimer.ToString());
-            Console.WriteLine("Subscribe properties : " + App.BluetoothHandler.subscribe.CanRead + App.BluetoothHandler.subscribe.CanWrite + App.BluetoothHandler.subscribe.CanUpdate);
-            App.BluetoothHandler.subscribe.ValueUpdated += Subscribe_ValueUpdated;
-            App.BluetoothHandler.subscribe.Read();
-        }
 
     }
 }

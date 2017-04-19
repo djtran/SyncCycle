@@ -4,7 +4,6 @@ using OxyPlot.Series;
 using OxyPlot.Xamarin.Forms;
 using System;
 using System.Collections.Generic;
-using BluetoothLE.Core.Events;
 using System.ComponentModel;
 using System.Text;
 using Xamarin.Forms;
@@ -69,8 +68,6 @@ namespace SyncCycle
 
         public PlotView getPlot(Sensor sensorEnum)
         {
-            Console.WriteLine("GETTING PLOT " + sensorEnum.ToString());
-            Console.WriteLine("GETTING PLOT " + sensorEnum.ToString());
 
             PlotView graph = new PlotView()
             {
