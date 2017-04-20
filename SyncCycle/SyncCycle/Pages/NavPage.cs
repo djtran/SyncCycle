@@ -14,11 +14,9 @@ namespace SyncCycle
     
     class NavPage : ContentPage
     {
-
-        Position p;
         
         Map map = new Map(
-              MapSpan.FromCenterAndRadius(new Position(0, 0), Distance.FromMiles(0.3)));
+              MapSpan.FromCenterAndRadius(new Position(42.2514, -71.8204), Distance.FromMiles(1)));
 
         public NavPage()
         {
@@ -53,6 +51,14 @@ namespace SyncCycle
 
         public void Pins()
         {
+            var pinHub = new Pin()
+            {
+                Position = new Position(42.2514, -71.8204),
+                Label = "Sustainability Hub",
+                Address = "912 Main St, Worcester, MA 01610",
+                Type = PinType.Place,
+            };
+
             var pin1 = new Pin()
             {
                 Position = new Position(42.251660, -71.823402),
@@ -239,21 +245,7 @@ namespace SyncCycle
                 Address = "542 Southbridge St, Worcester, MA 01610"
             };
 
-            var dummypin = new Pin()
-            {
-                Position = new Position(42.348773, -71.097516),
-                Label = "Dummy Pin: Kenmore Square",
-                Address = "Boston MA 02215",
-                Type = PinType.Generic
-            };
-
-            var currentPin = new Pin() {
-                   
-                    Position = new Position (p.Latitude, p.Longitude),
-                    Label = "Current Position",
-                    Type = PinType.Place
-            };
-
+            map.Pins.Add(pinHub);
             map.Pins.Add(pin1);
             map.Pins.Add(pin2);
             map.Pins.Add(pin3);
@@ -280,22 +272,8 @@ namespace SyncCycle
             map.Pins.Add(pin24);
             map.Pins.Add(pin25);
             map.Pins.Add(pin26);
-            map.Pins.Add(dummypin);
-            map.Pins.Add(currentPin);
         } //We add all the pins for the locations that we determined to be hotpots manually in this method, which is then called in the OnAppearing method. The pins are added uses a skeleton code.
                                //Considering custom pins to differentiate between restaraunts and coffee shops etc.
-
-        public async void current_loc()
-        {
-            var locator = CrossGeolocator.Current;
-            locator.DesiredAccuracy = 1;
-            var temp = await locator.GetPositionAsync(timeoutMilliseconds: 10000);
-
-            p = new Position(temp.Latitude, temp.Longitude);
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(new Position(p.Latitude, p.Longitude), Distance.FromMiles(0.3)));
-
-        }
-
         
         public void map_nv(string address)
         {
@@ -318,7 +296,6 @@ namespace SyncCycle
         {
             base.OnAppearing();
             checkPerms();
-            current_loc();
             Pins();
         }
 
@@ -336,9 +313,8 @@ namespace SyncCycle
                 {
                     if (await CrossPermissions.Current.ShouldShowRequestPermissionRationaleAsync(Permission.Location))
                     {
-                        await DisplayAlert("Need location", "Gunna need that location", "OK");
+                        await DisplayAlert("Need location", "Location Services are needed for the map display", "OK");
                     }
-                    await DisplayAlert("Bout to ask you for some nice permissions", "", "okay");
                     var results = await CrossPermissions.Current.RequestPermissionsAsync(Permission.Location);
                     stat = results[Permission.Location];
                 }

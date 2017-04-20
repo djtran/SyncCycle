@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:installLocation="auto" android:versionName="0.1" package="SyncCycle.Droid" android:versionCode="1">
-	
-	<application android:label="SyncCycle" android:icon="@mipmap/ic_launcher">
+  <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="23" />
+	<application android:label="SyncCycle" android:icon="@drawable/ic_launcher">
 		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyC0CuPxHmmokSyqM3DfvhlNbNsL1kxJkio" />
 	</application>
 	<uses-permission android:name="android.permission.BLUETOOTH" />
@@ -13,4 +13,5 @@
 	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
+  <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
 </manifest>

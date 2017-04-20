@@ -4,13 +4,11 @@ using System.Linq;
 using System.Text;
 
 using Xamarin.Forms;
-using BluetoothLE.Core;
-using BluetoothLE.Core.Events;
 using System.Collections;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Plugin.Geolocator;
-using Akavache;
+using Plugin.BLE;
 
 namespace SyncCycle
 {
@@ -28,31 +26,18 @@ namespace SyncCycle
 
     public class App : Application
 	{
-        private static readonly IAdapter _bluetoothAdapter;
-        public static IAdapter BluetoothAdapter { get { return _bluetoothAdapter; } }
-        private static BTDeviceButton _bluetoothHandler;
+        private static BTHandler _bluetoothHandler = new BTHandler();
 
-        public static BTDeviceButton BluetoothHandler { get { return _bluetoothHandler; } }
+        public static BTHandler BluetoothHandler { get { return _bluetoothHandler; } }
 
         static App()
         {
-            _bluetoothAdapter = DependencyService.Get<IAdapter>();
-
-            _bluetoothHandler = new BTDeviceButton();
-            BluetoothAdapter.DeviceDiscovered += _bluetoothHandler.DeviceDiscovered;
-
-            _bluetoothAdapter.ScanTimeout = TimeSpan.FromSeconds(3);
-            _bluetoothAdapter.ConnectionTimeout = TimeSpan.FromSeconds(3);
-
-
+            _bluetoothHandler = new BTHandler();
         }
 
         public App ()
         {
-            BlobCache.ApplicationName = "SyncCycle";
-            BlobCache.EnsureInitialized();
-            
-
+            BluetoothHandler.init();
             var rideListContainer = new NavigationPage(new RideListPage());
             rideListContainer.Title = "Rides";
 
@@ -80,11 +65,10 @@ namespace SyncCycle
 		{
             // Handle when your app sleeps
             //_bluetoothHandler.toggleTimer(false);
-            BlobCache.Shutdown().Wait();
 
-            if(App.BluetoothHandler.connected != null)
+            if(BluetoothHandler.connected != null)
             {
-                App.BluetoothHandler.connected.Disconnect();
+                BluetoothHandler.adapter.DisconnectDeviceAsync(BluetoothHandler.connected);
             }
 
 		}
@@ -92,7 +76,11 @@ namespace SyncCycle
 		protected override void OnResume ()
 		{
             // Handle when your app resumes
-            //_bluetoothHandler.toggleTimer(true);
-		}
+            if(BluetoothHandler.ble.IsOn)
+            {
+                BluetoothHandler.startSearch();
+            }
+
+        }
 	}
 }

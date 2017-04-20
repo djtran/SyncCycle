@@ -10,7 +10,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)App.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)BTDeviceButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)BTHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\BikeData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\DataHandler.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Data\DataViewCell.cs" />

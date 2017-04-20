@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "SyncCycle", "SyncCycle\SyncCycle\SyncCycle.shproj", "{2383EDDF-FB6D-4A59-9220-8AC4BCC7AB2D}"
 EndProject
@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SyncCycle.iOS", "SyncCycle\
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		SyncCycle\SyncCycle\SyncCycle.projitems*{f9975314-35b8-4442-89da-f225f082df83}*SharedItemsImports = 4
-		SyncCycle\SyncCycle\SyncCycle.projitems*{df0fac8c-5850-41af-b4e2-c81191ab3ea7}*SharedItemsImports = 4
 		SyncCycle\SyncCycle\SyncCycle.projitems*{2383eddf-fb6d-4a59-9220-8ac4bcc7ab2d}*SharedItemsImports = 13
+		SyncCycle\SyncCycle\SyncCycle.projitems*{df0fac8c-5850-41af-b4e2-c81191ab3ea7}*SharedItemsImports = 4
+		SyncCycle\SyncCycle\SyncCycle.projitems*{f9975314-35b8-4442-89da-f225f082df83}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
